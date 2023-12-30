@@ -1,15 +1,10 @@
 'use server';
 
+import { Bookmark } from '@/lib/schemas/bookmarks';
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 
-export const createBookmark = async ({
-  url,
-  title,
-}: {
-  url: string;
-  title: string;
-}) => {
+export const createBookmark = async ({ url, title }: Bookmark) => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
