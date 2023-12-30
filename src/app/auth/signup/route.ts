@@ -37,9 +37,7 @@ export async function POST(request: Request) {
     ]);
 
     if (error) {
-      return {
-        error: error.message,
-      };
+      throw new Error(error.message);
     }
   }
 
