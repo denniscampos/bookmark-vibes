@@ -1,13 +1,19 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { getSession } from '@/utils/supabase/auth';
+import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export default async function Page() {
-  const session = await getSession();
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
 
-  if (session) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
     redirect('/dashboard');
   }
 
