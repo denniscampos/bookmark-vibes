@@ -1,23 +1,30 @@
-export default function Page() {
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { getSession } from '@/utils/supabase/auth';
+import { redirect } from 'next/navigation';
+
+export default async function Page() {
+  const session = await getSession();
+
+  if (session) {
+    redirect('/dashboard');
+  }
+
   return (
     <div>
       <form action="/auth/signin" method="post">
-        <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" />
+        <Label htmlFor="email">Email</Label>
+        <Input id="email" name="email" type="email" />
 
-        <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password" />
+        <Label htmlFor="password">Password</Label>
+        <Input id="password" name="password" type="password" />
 
-        <button className="py-2 px-4 mb-2 bg-gray-800 rounded-md text-foreground">
-          Sign In
-        </button>
+        <Button size="sm">Sign In</Button>
 
-        <button
-          formAction="/auth/signup"
-          className="py-2 px-4 mb-2 rounded-md border border-foreground/20 text-foreground"
-        >
+        <Button formAction="/auth/signup" size="sm">
           Sign Up
-        </button>
+        </Button>
       </form>
     </div>
   );

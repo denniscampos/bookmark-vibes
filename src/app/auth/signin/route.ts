@@ -31,7 +31,9 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.redirect(requestUrl.origin, {
+  const dashboardUrl = `${requestUrl.origin}/dashboard`;
+
+  return NextResponse.redirect(dashboardUrl, {
     // a 301 status is required to redirect from a POST to a GET route
     status: 301,
   });
