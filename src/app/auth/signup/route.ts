@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   const supabase = createClient(cookieStore);
 
   // Create a new user with their email and password
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -20,13 +20,36 @@ export async function POST(request: Request) {
     },
   });
 
+  if (data) {
+    const { error } = await supabase.from('category').insert([
+      {
+        name: 'Food',
+        user_id: data.user?.id,
+      },
+      {
+        name: 'Tech',
+        user_id: data.user?.id,
+      },
+      {
+        name: 'Entertainment',
+        user_id: data.user?.id,
+      },
+    ]);
+
+    if (error) {
+      return {
+        error: error.message,
+      };
+    }
+  }
+
   if (error) {
     return NextResponse.redirect(
       `${requestUrl.origin}/login?error=Could not authenticate user`,
       {
         // a 301 status is required to redirect from a POST to a GET route
         status: 301,
-      },
+      }
     );
   }
 
@@ -35,6 +58,6 @@ export async function POST(request: Request) {
     {
       // a 301 status is required to redirect from a POST to a GET route
       status: 301,
-    },
+    }
   );
 }

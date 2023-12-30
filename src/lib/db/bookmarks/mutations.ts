@@ -4,7 +4,15 @@ import { Bookmark } from '@/lib/schemas/bookmarks';
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 
-export const createBookmark = async ({ url, title }: Bookmark) => {
+type BookmarkType = Bookmark & {
+  category_id: string;
+};
+
+export const createBookmark = async ({
+  url,
+  title,
+  category_id,
+}: BookmarkType) => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
@@ -23,6 +31,7 @@ export const createBookmark = async ({ url, title }: Bookmark) => {
       url,
       title,
       user_id: user.id,
+      category_id,
     },
   ]);
 

@@ -6,20 +6,30 @@ import { Bookmark, bookmarkSchema } from '@/lib/schemas/bookmarks';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { CategorySelect } from './CategorySelect';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { CategoryPayloadType } from '@/lib/types';
 
-export const BookmarkForm = () => {
+interface BookmarkFormProps {
+  categories: CategoryPayloadType['data'];
+}
+export const BookmarkForm = ({ categories }: BookmarkFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Bookmark>({
+
+  const form = useForm<Bookmark>({
     defaultValues: {
       url: '',
       title: '',
+      category_id: '',
     },
     resolver: zodResolver(bookmarkSchema),
   });
@@ -38,15 +48,37 @@ export const BookmarkForm = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Label htmlFor="url">URL</Label>
-        <Input id="url" {...register('url')} />
-        <p className="text-red-500">{errors.url?.message}</p>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="url"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>URL</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Label htmlFor="title">Title</Label>
-        <Input id="title" {...register('title')} />
-        <p className="text-red-500">{errors.title?.message}</p>
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <CategorySelect categories={categories} form={form} />
 
         <Button disabled={isLoading} type="submit" size="sm">
           {isLoading ? (
@@ -58,6 +90,6 @@ export const BookmarkForm = () => {
           )}
         </Button>
       </form>
-    </div>
+    </Form>
   );
 };
