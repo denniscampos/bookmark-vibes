@@ -14,8 +14,8 @@ export async function Navbar() {
   return (
     <header>
       <div className="flex justify-between items-center p-2">
-        <Button variant="ghost" size="sm">
-          Bookmark Vibes
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/">Bookmark Vibes</Link>
         </Button>
         {user ? (
           <form action="/auth/signout" method="post">

@@ -18,7 +18,7 @@ export interface Database {
           title: string | null
           updated_at: string | null
           url: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           category_id?: string | null
@@ -28,7 +28,7 @@ export interface Database {
           title?: string | null
           updated_at?: string | null
           url?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           category_id?: string | null
@@ -38,7 +38,7 @@ export interface Database {
           title?: string | null
           updated_at?: string | null
           url?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
