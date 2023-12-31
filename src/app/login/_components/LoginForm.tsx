@@ -1,3 +1,4 @@
+import { Icons } from '@/components/Icons';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,15 +12,39 @@ import { Label } from '@/components/ui/label';
 
 export function LoginForm() {
   return (
-    <Card className="flex flex-col justify-center w-[400px] mx-auto">
-      <CardHeader>
-        <CardTitle>Sign in</CardTitle>
-        <CardDescription>Sign in to your account</CardDescription>
+    <Card className="flex flex-col justify-center mx-auto w-[350px]">
+      <CardHeader className="spacy-y-1">
+        <CardTitle className="text-2xl">Sign in</CardTitle>
+        <CardDescription>Enter your email below to sign in</CardDescription>
       </CardHeader>
       <CardContent>
+        <div className="grid gap-4">
+          <form action="/auth/signin" method="post" className="w-full">
+            <Button
+              name="provider"
+              value="google"
+              variant="outline"
+              size="sm"
+              className="w-full"
+            >
+              <Icons.google className="mr-2 h-4 w-4" />
+              Google
+            </Button>
+          </form>
+        </div>
+        <div className="relative my-3">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Or continue with
+            </span>
+          </div>
+        </div>
         <div>
           <form
-            className="flex flex-col space-y-2"
+            className="flex flex-col space-y-3"
             action="/auth/signin"
             method="post"
           >
@@ -29,11 +54,20 @@ export function LoginForm() {
             <Label htmlFor="password">Password</Label>
             <Input id="password" name="password" type="password" />
 
-            <Button size="sm">Sign In</Button>
+            <div className="flex gap-2 justify-between">
+              <Button className="w-full" size="sm">
+                Sign In
+              </Button>
 
-            <Button formAction="/auth/signup" size="sm">
-              Sign Up
-            </Button>
+              <Button
+                className="w-full"
+                formAction="/auth/signup"
+                size="sm"
+                variant="secondary"
+              >
+                Sign Up
+              </Button>
+            </div>
           </form>
         </div>
       </CardContent>
