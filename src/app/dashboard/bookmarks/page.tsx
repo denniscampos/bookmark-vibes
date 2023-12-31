@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/button';
+
 import { getUserBookmarks } from '@/lib/db/bookmarks/queries';
 import Link from 'next/link';
+import { VerticalDropdownMenu } from './_components/VerticalDropdownMenu';
 
 export default async function Page() {
   const { data } = await getUserBookmarks();
@@ -25,8 +27,7 @@ export default async function Page() {
                 <h3 className="font-semibold text-xl">{bookmark.title}</h3>
                 <p className="text-muted-foreground text-sm">{bookmark.url}</p>
               </div>
-
-              <Button size="sm">Edit</Button>
+              <VerticalDropdownMenu bookmark={bookmark} />
             </div>
           ))
         ) : (

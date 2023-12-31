@@ -5,3 +5,10 @@ export type CategoryPayloadType = {
   }[];
   error: string;
 };
+
+export type BookmarkPayload = {
+  id: string;
+  url: string | null;
+  title: string | null;
+  category_id: string | null;
+};

@@ -25,12 +25,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { useRouter } from 'next/navigation';
 
 interface BookmarkFormProps {
   categories: CategoryPayloadType['data'];
 }
 export const BookmarkForm = ({ categories }: BookmarkFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<Bookmark>({
     defaultValues: {
@@ -45,6 +47,8 @@ export const BookmarkForm = ({ categories }: BookmarkFormProps) => {
     setIsLoading(true);
     try {
       await createBookmark(data);
+      router.push('/dashboard/bookmarks');
+      router.refresh();
     } catch (error) {
       if (error instanceof Error) {
         console.error(error);

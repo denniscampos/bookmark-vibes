@@ -49,9 +49,11 @@ export const createBookmark = async ({
 export const updateBookmark = async ({
   title,
   url,
+  id,
 }: {
   title: string;
   url: string;
+  id: string;
 }) => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
@@ -72,6 +74,7 @@ export const updateBookmark = async ({
       title,
       url,
     })
+    .eq('id', id)
     .match({ user_id: user.id });
 
   if (error) {
