@@ -10,7 +10,6 @@ export async function POST(request: Request) {
   const provider = String(formData.get('provider'));
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const env = process.env.NODE_ENV;
 
   /**
    * Sign in a user with their email and password using Supabase authentication.
@@ -22,35 +21,6 @@ export async function POST(request: Request) {
     email,
     password,
   });
-
-  if (provider) {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-        },
-        redirectTo: `${process.env.BASE_URL}/auth/callback`,
-      },
-    });
-
-    if (error) {
-      console.error({ error });
-      return NextResponse.redirect(
-        `${requestUrl.origin}/login?error=Could not authenticate user`,
-        {
-          // a 301 status is required to redirect from a POST to a GET route
-          status: 301,
-        }
-      );
-    }
-
-    return NextResponse.redirect(data.url, {
-      // a 301 status is required to redirect from a POST to a GET route
-      status: 301,
-    });
-  }
 
   if (error) {
     return NextResponse.redirect(

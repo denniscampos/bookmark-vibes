@@ -51,3 +51,57 @@ export const createCategory = async ({ name }: CategoryType) => {
     data,
   };
 };
+
+export const updateCategory = async ({ name }: { name: string }) => {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      error: 'Unauthorized to update category',
+    };
+  }
+
+  const { error } = await supabase
+    .from('category')
+    .update({
+      name,
+    })
+    .match({ user_id: user.id });
+
+  if (error) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
+export const removeCategory = async ({ id }: { id: string }) => {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      error: 'Unauthorized to delete category',
+    };
+  }
+
+  const { error } = await supabase
+    .from('category')
+    .delete()
+    .match({ user_id: user.id, id });
+
+  if (error) {
+    return {
+      error: error.message,
+    };
+  }
+};

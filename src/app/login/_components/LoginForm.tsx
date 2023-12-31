@@ -55,7 +55,7 @@ export function LoginForm() {
             <Input id="password" name="password" type="password" />
 
             <div className="flex gap-2 justify-between">
-              <Button className="w-full" size="sm">
+              <Button className="w-full" size="sm" type="submit">
                 Sign In
               </Button>
 
