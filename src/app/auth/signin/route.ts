@@ -31,10 +31,7 @@ export async function POST(request: Request) {
           access_type: 'offline',
           prompt: 'consent',
         },
-        redirectTo:
-          process.env.NODE_ENV === 'development'
-            ? 'http://localhost:3000/auth/callback'
-            : 'https://bookmark.vibes.vercel.app/auth/callback',
+        redirectTo: `${process.env.BASE_URL}/auth/callback`,
       },
     });
 
