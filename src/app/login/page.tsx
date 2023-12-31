@@ -16,7 +16,7 @@ export default async function Page() {
   }
 
   return (
-    <div>
+    <div className="flex h-screen items-center">
       <LoginForm />
     </div>
   );
