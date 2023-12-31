@@ -10,12 +10,14 @@ import {
 import { MoreVertical } from 'lucide-react';
 import { EditBookmarkDialog } from './EditBookmarkDialog';
 import { RemoveBookmarkDialog } from './RemoveBookmarkDialog';
-import { BookmarkPayload } from '@/lib/types';
+import { BookmarkPayload, CategoryPayloadType } from '@/lib/types';
 
 export const VerticalDropdownMenu = ({
   bookmark,
+  categoryData,
 }: {
   bookmark: BookmarkPayload;
+  categoryData?: CategoryPayloadType['data'];
 }) => {
   /** https://stackoverflow.com/a/77186946 Dialog Issue Fix */
   return (
@@ -32,7 +34,7 @@ export const VerticalDropdownMenu = ({
             document.body.style.pointerEvents = '';
           }}
         >
-          <EditBookmarkDialog bookmark={bookmark} />
+          <EditBookmarkDialog bookmark={bookmark} categoryData={categoryData} />
         </DropdownMenuItem>
         <DropdownMenuItem
           onSelect={(e) => {

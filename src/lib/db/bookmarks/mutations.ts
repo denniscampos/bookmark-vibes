@@ -6,12 +6,14 @@ import { cookies } from 'next/headers';
 
 type BookmarkType = Bookmark & {
   category_id: string;
+  category_name: string;
 };
 
 export const createBookmark = async ({
   url,
   title,
   category_id,
+  category_name,
 }: BookmarkType) => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
@@ -32,6 +34,7 @@ export const createBookmark = async ({
       title,
       user_id: user.id,
       category_id,
+      category_name,
     },
   ]);
 
@@ -50,10 +53,12 @@ export const updateBookmark = async ({
   title,
   url,
   id,
+  category_name,
 }: {
   title: string;
   url: string;
   id: string;
+  category_name: string;
 }) => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
@@ -73,6 +78,7 @@ export const updateBookmark = async ({
     .update({
       title,
       url,
+      category_name,
     })
     .eq('id', id)
     .match({ user_id: user.id });

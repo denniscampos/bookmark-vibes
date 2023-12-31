@@ -1,3 +1,5 @@
+'use server';
+
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 
@@ -17,7 +19,7 @@ export async function getUserBookmarks() {
 
   const { data, error } = await supabase
     .from('bookmark')
-    .select('id, url, title, category_id')
+    .select('id, url, title, category_id, category_name')
     .eq('user_id', user.id);
 
   if (error) {

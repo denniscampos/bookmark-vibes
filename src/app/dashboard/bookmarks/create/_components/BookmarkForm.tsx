@@ -39,6 +39,7 @@ export const BookmarkForm = ({ categories }: BookmarkFormProps) => {
       url: '',
       title: '',
       category_id: '',
+      category_name: '',
     },
     resolver: zodResolver(bookmarkSchema),
   });

@@ -11,4 +11,10 @@ export type BookmarkPayload = {
   url: string | null;
   title: string | null;
   category_id: string | null;
+  category_name: string | null;
 };
+
+export type CategoryPayload = {
+  name: string | null;
+  id: string;
+}[];

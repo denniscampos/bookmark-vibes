@@ -3,9 +3,12 @@ import { Button } from '@/components/ui/button';
 import { getUserBookmarks } from '@/lib/db/bookmarks/queries';
 import Link from 'next/link';
 import { VerticalDropdownMenu } from './_components/VerticalDropdownMenu';
+import { getCategories } from '@/lib/db/categories/queries';
+import { CategoryPayloadType } from '@/lib/types';
 
 export default async function Page() {
   const { data } = await getUserBookmarks();
+  const { data: categoryData } = (await getCategories()) as CategoryPayloadType;
 
   return (
     <div className="w-full p-8">
@@ -27,7 +30,10 @@ export default async function Page() {
                 <h3 className="font-semibold text-xl">{bookmark.title}</h3>
                 <p className="text-muted-foreground text-sm">{bookmark.url}</p>
               </div>
-              <VerticalDropdownMenu bookmark={bookmark} />
+              <VerticalDropdownMenu
+                bookmark={bookmark}
+                categoryData={categoryData}
+              />
             </div>
           ))
         ) : (

@@ -4,6 +4,7 @@ export const bookmarkSchema = z.object({
   url: z.string().url(),
   title: z.string(),
   category_id: z.string(),
+  category_name: z.string(),
 });
 
 export type Bookmark = z.infer<typeof bookmarkSchema>;

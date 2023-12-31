@@ -12,21 +12,32 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { updateBookmark } from '@/lib/db/bookmarks/mutations';
-import { BookmarkPayload } from '@/lib/types';
+import { BookmarkPayload, CategoryPayloadType } from '@/lib/types';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export const EditBookmarkDialog = ({
   bookmark,
+  categoryData,
 }: {
   bookmark: BookmarkPayload;
+  categoryData?: CategoryPayloadType['data'];
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(bookmark.title as string);
   const [url, setUrl] = useState(bookmark.url as string);
+  const [categoryName, setCategoryName] = useState(bookmark.url as string);
   const router = useRouter();
 
   const handleEditBookmark = async () => {
@@ -35,6 +46,7 @@ export const EditBookmarkDialog = ({
       title,
       url,
       id: bookmark.id,
+      category_name: categoryName,
     });
     setOpen(false);
     router.refresh();
@@ -75,6 +87,28 @@ export const EditBookmarkDialog = ({
               className="col-span-3"
               onChange={(e) => setUrl(e.target.value)}
             />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="category" className="text-right">
+              Category
+            </Label>
+            <Select onValueChange={(value) => setCategoryName(value)}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder={bookmark.category_name} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {categoryData?.map((category) => (
+                    <SelectItem
+                      key={category.id}
+                      value={category.name as string}
+                    >
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <DialogFooter>
