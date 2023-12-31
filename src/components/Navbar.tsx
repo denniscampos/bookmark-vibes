@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import { ModeToggle } from './Toggle';
 import { HomeOrDashboard } from './HomeOrDashboard';
 import { ShowNavbar } from './ShowNavbar';
+import { MobileSheetNav } from './MobileSheetNav';
 
 export async function Navbar() {
   const cookieStore = cookies();
@@ -18,7 +19,14 @@ export async function Navbar() {
     <ShowNavbar>
       <header className="border-b border-gray-500/50 bg-card">
         <div className="flex justify-between items-center p-6">
-          <HomeOrDashboard />
+          <div>
+            <div className="hidden sm:flex">
+              <HomeOrDashboard />
+            </div>
+            <div className="flex sm:hidden">
+              <MobileSheetNav />
+            </div>
+          </div>
           <div className="flex items-center gap-4">
             <ModeToggle />
             {user ? (

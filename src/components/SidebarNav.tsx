@@ -4,7 +4,7 @@ import { Bookmark, Folder, Home } from 'lucide-react';
 
 export const SidebarNav = () => {
   return (
-    <nav className="bg-card border-r border-gray-500/50 h-screen flex w-[250px] p-4">
+    <nav className="bg-card border-r border-gray-500/50 h-screen hidden sm:flex w-[250px] p-4">
       <ul>
         <li className="flex items-center">
           <Button variant="link" size="sm" asChild>

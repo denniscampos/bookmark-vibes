@@ -60,7 +60,7 @@ export const BookmarkForm = ({ categories }: BookmarkFormProps) => {
 
   return (
     <Form {...form}>
-      <Card className="flex flex-col justify-center w-[400px] mx-auto">
+      <Card className="flex flex-col justify-center w-[300px] sm:w-[400px] mx-auto">
         <CardHeader>
           <CardTitle>Add Bookmark</CardTitle>
           <CardDescription>Add a new bookmark</CardDescription>
