@@ -19,7 +19,7 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
-          <form action="/auth/signin" method="post" className="w-full">
+          <form action="/auth/signin" method="post">
             <Button
               name="provider"
               value="google"

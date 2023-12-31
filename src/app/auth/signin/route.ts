@@ -27,10 +27,14 @@ export async function POST(request: Request) {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
         redirectTo:
-          env === 'development'
-            ? 'http://localhost:3000/dashboard'
-            : 'https://bookmark.vibes.vercel.app/dashboard',
+          process.env.NODE_ENV === 'development'
+            ? 'http://localhost:3000/auth/callback'
+            : 'https://bookmark.vibes.vercel.app/auth/callback',
       },
     });
 
