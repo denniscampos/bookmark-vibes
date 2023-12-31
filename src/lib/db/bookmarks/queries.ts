@@ -20,7 +20,8 @@ export async function getUserBookmarks() {
   const { data, error } = await supabase
     .from('bookmark')
     .select('id, url, title, category_id, category_name')
-    .eq('user_id', user.id);
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
 
   if (error) {
     return {

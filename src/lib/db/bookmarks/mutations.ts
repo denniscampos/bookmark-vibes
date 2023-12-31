@@ -28,19 +28,32 @@ export const createBookmark = async ({
     };
   }
 
-  const { data, error } = await supabase.from('bookmark').insert([
-    {
-      url,
-      title,
-      user_id: user.id,
-      category_id,
-      category_name,
-    },
-  ]);
+  const { data, error } = await supabase
+    .from('bookmark')
+    .insert([
+      {
+        url,
+        title,
+        user_id: user.id,
+        category_id,
+        category_name,
+      },
+    ])
+    .select();
 
-  if (error) {
+  const { error: bookmarkCategoryError } = await supabase
+    .from('bookmark_category')
+    .insert([
+      {
+        category_id,
+        bookmark_id: data?.[0].id,
+        user_id: user.id,
+      },
+    ]);
+
+  if (error || bookmarkCategoryError) {
     return {
-      error: error.message,
+      error: error?.message,
     };
   }
 
@@ -107,7 +120,8 @@ export const removeBookmark = async ({ id }: { id: string }) => {
   const { error } = await supabase
     .from('bookmark')
     .delete()
-    .match({ user_id: user.id, id });
+    .eq('id', id)
+    .match({ user_id: user.id });
 
   if (error) {
     return {
