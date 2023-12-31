@@ -34,9 +34,11 @@ export async function POST(request: Request) {
         redirectTo:
           env === 'development'
             ? 'http://localhost:3000/auth/callback'
-            : 'https://bookmark.vibes.vercel.app/auth/callback',
+            : 'https://bookmark-vibes.vercel.app/auth/callback',
       },
     });
+
+    console.log('BUILD ME@@@@@: ', data.url);
 
     if (error) {
       console.error({ error });
