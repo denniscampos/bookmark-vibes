@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select';
 import { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
-import { CategoryDialog } from './CategoryDialog';
+import { CategoryDialog } from '@/components/CategoryDialog';
 import { CategoryPayloadType } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 
@@ -94,6 +94,7 @@ export const CategorySelect = ({ categories, form }: CategorySelectProps) => {
         <CategoryDialog
           addCategory={addCategory}
           setAddCategory={setAddCategory}
+          dialogDescription="Add a category to your bookmarks."
         />
       )}
     </>

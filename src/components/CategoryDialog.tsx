@@ -8,39 +8,59 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { createCategory } from '@/lib/db/categories/mutations';
-import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface CategoryDialogProps {
-  addCategory: boolean;
-  setAddCategory: (bool: boolean) => void;
+  addCategory?: boolean;
+  setAddCategory?: (bool: boolean) => void;
+  dialogDescription: string;
 }
 
 export const CategoryDialog = ({
   addCategory,
   setAddCategory,
+  dialogDescription,
 }: CategoryDialogProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const [categoryName, setCategoryName] = useState('');
   const router = useRouter();
+  const pathname = usePathname();
+  const isBookmarkPage = pathname === '/dashboard/bookmarks/create';
 
   const handleCategory = async () => {
+    setIsLoading(true);
     await createCategory({ name: categoryName });
-    setAddCategory(false);
+
+    if (isBookmarkPage) {
+      setAddCategory?.(false);
+    } else {
+      setOpen(false);
+    }
+
     router.refresh();
+    setIsLoading(false);
   };
 
   return (
-    <Dialog open={addCategory} onOpenChange={setAddCategory}>
+    <Dialog
+      open={isBookmarkPage ? addCategory : open}
+      onOpenChange={isBookmarkPage ? setAddCategory : setOpen}
+    >
+      <DialogTrigger asChild>
+        <Button size="sm">Create Category</Button>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add a Category</DialogTitle>
-          <DialogDescription>
-            Add a category to your bookmarks.
-          </DialogDescription>
+          <DialogDescription>{dialogDescription}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -55,8 +75,15 @@ export const CategoryDialog = ({
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={handleCategory} type="submit">
-            Add Category
+          <Button disabled={isLoading} onClick={handleCategory} type="submit">
+            {isLoading ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Adding...
+              </>
+            ) : (
+              'Add Category'
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
