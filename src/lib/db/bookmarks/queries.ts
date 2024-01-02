@@ -1,19 +1,14 @@
 'use server';
 
-import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
+import { initializeAndAuthenticateUser } from '@/utils/initializeAndAuthenticateUser';
 
 export async function getUserBookmarks() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const initResult = await initializeAndAuthenticateUser();
+  const { user, supabase } = initResult;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
+  if (initResult.error || !user) {
     return {
-      error: 'You must be logged in to view your bookmarks',
+      error: initResult.error,
     };
   }
 
@@ -35,16 +30,12 @@ export async function getUserBookmarks() {
 }
 
 export async function recentBookmarks() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const initResult = await initializeAndAuthenticateUser();
+  const { user, supabase } = initResult;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
+  if (initResult.error || !user) {
     return {
-      error: 'You must be logged in to view your bookmarks',
+      error: initResult.error,
     };
   }
 
@@ -67,16 +58,12 @@ export async function recentBookmarks() {
 }
 
 export async function totalUserBookmarks() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const initResult = await initializeAndAuthenticateUser();
+  const { user, supabase } = initResult;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
+  if (initResult.error || !user) {
     return {
-      error: 'You must be logged in to view your bookmarks',
+      error: initResult.error,
     };
   }
 
@@ -97,16 +84,12 @@ export async function totalUserBookmarks() {
 }
 
 export async function userBookmarksThisMonth() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const initResult = await initializeAndAuthenticateUser();
+  const { user, supabase } = initResult;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
+  if (initResult.error || !user) {
     return {
-      error: 'You must be logged in to view your bookmarks',
+      error: initResult.error,
     };
   }
 
