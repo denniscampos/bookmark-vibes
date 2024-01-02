@@ -172,8 +172,18 @@ export async function categoryOverview() {
     return acc;
   }, {});
 
+  let mostBookmarkedCategory = '';
+  let maxCount = 0;
+  for (const [name, count] of Object.entries(categoryCounts)) {
+    if (count > maxCount) {
+      mostBookmarkedCategory = name;
+      maxCount = count;
+    }
+  }
+
   return {
     data,
     count: categoryCounts,
+    mostBookmarkedCategory,
   };
 }

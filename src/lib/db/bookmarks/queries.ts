@@ -65,3 +65,70 @@ export async function recentBookmarks() {
     data,
   };
 }
+
+export async function totalUserBookmarks() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      error: 'You must be logged in to view your bookmarks',
+    };
+  }
+
+  const { error, count } = await supabase
+    .from('bookmark')
+    .select('id', { count: 'exact' })
+    .eq('user_id', user.id);
+
+  if (error) {
+    return {
+      error: 'There was an error fetching your bookmarks',
+    };
+  }
+
+  return {
+    bookmarkCount: count,
+  };
+}
+
+export async function userBookmarksThisMonth() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      error: 'You must be logged in to view your bookmarks',
+    };
+  }
+
+  const firstDayOfMonth = new Date();
+  firstDayOfMonth.setDate(1);
+  firstDayOfMonth.setHours(0, 0, 0, 0);
+
+  const firstDayOfMonthFormatted = firstDayOfMonth.toISOString().split('T')[0];
+
+  const { error, count } = await supabase
+    .from('bookmark')
+    .select('id', { count: 'exact' })
+    .eq('user_id', user.id)
+    .gt('created_at', firstDayOfMonthFormatted);
+
+  if (error) {
+    return {
+      error: 'There was an error fetching your bookmarks',
+    };
+  }
+
+  return {
+    totalBookmarkCountForTheMonth: count,
+  };
+}

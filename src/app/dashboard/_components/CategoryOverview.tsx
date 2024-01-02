@@ -12,14 +12,14 @@ export function CategoryOverview({
   categoryCount,
 }: CategoryOverviewProps) {
   return (
-    <Card className="p-8">
+    <Card className="p-4 w-[300px]">
       <div className="flex items-center justify-between">
         <h2 className="font-semibold text-sm sm:text-base">
           Category Overview
         </h2>
       </div>
 
-      <div className="my-5 flex flex-col w-full gap-4">
+      <div className="my-5 flex flex-col w-full gap-2">
         {categories && Object.keys(categoryCount!).length > 0 ? (
           Object.entries(categoryCount!).map(([name, count], index) => (
             <div key={`category-${index}`} className="flex justify-between">

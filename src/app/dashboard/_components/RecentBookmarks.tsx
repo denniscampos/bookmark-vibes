@@ -10,11 +10,11 @@ export function RecentBookmarks({
   bookmarks: RecentBookmarksProps[] | undefined;
 }) {
   return (
-    <Card className="p-8">
+    <Card className="p-4 w-[300px]">
       <div className="flex items-center justify-between">
         <h2 className="font-semibold text-sm sm:text-base">Recent Bookmarks</h2>
       </div>
-      <div className="my-5 flex flex-col w-full gap-4">
+      <div className="my-5 flex flex-col w-full gap-2">
         {bookmarks && bookmarks.length >= 1 ? (
           bookmarks.map((bookmark, index) => (
             <Link
