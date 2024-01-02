@@ -25,6 +25,8 @@ export type RecentBookmarksPayload = {
 };
 
 export type CategoryOverviewPayload = {
-  name: string | null;
-  id: string | null;
+  category_id: string | null;
+  category: {
+    name: string | null;
+  } | null;
 };

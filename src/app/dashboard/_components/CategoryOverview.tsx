@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { CategoryOverviewPayload } from '@/lib/types';
 
@@ -10,10 +11,6 @@ export function CategoryOverview({
   categories,
   categoryCount,
 }: CategoryOverviewProps) {
-  // const count = Object.values(categoryCount!);
-
-  // TODO: WIP... need bookmark counts from each category and not how I currently have it
-
   return (
     <Card className="p-8">
       <div className="flex items-center justify-between">
@@ -21,12 +18,15 @@ export function CategoryOverview({
           Category Overview
         </h2>
       </div>
+
       <div className="my-5 flex flex-col w-full gap-4">
-        {categories && categories.length >= 1 ? (
-          categories.map((category, index) => (
-            <div key={`category-${index}`}>
-              <p>{category.name}</p>
-              {/* <span>{count}</span> */}
+        {categories && Object.keys(categoryCount!).length > 0 ? (
+          Object.entries(categoryCount!).map(([name, count], index) => (
+            <div key={`category-${index}`} className="flex justify-between">
+              <span className="text-muted-foreground text-sm">{name}</span>
+              <span>
+                <Badge>{count}</Badge>
+              </span>
             </div>
           ))
         ) : (

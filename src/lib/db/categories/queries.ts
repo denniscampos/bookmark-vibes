@@ -146,9 +146,11 @@ export async function categoryOverview() {
     };
   }
 
-  const { data, error, count } = await supabase
-    .from('category')
-    .select('name, id', { count: 'exact' })
+  const { data, error } = await supabase
+    .from('bookmark_category')
+    .select('category_id, category(name)', {
+      count: 'exact',
+    })
     .eq('user_id', user.id);
 
   if (error) {
@@ -157,15 +159,18 @@ export async function categoryOverview() {
     };
   }
 
-  const categoryCounts: Record<string, number> = data.reduce(
-    (acc: Record<string, number>, item) => {
-      if (item.name) {
-        acc[item.name] = (acc[item.name] || 0) + 1;
+  const categoryCounts = data.reduce((acc: Record<string, number>, item) => {
+    // If the category name is already a key in the accumulator, increment its count
+    if (item && item.category && item.category.name) {
+      if (acc[item.category.name]) {
+        acc[item.category.name] += 1;
+      } else {
+        acc[item.category.name] = 1;
       }
-      return acc;
-    },
-    {}
-  );
+    }
+
+    return acc;
+  }, {});
 
   return {
     data,

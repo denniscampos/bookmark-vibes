@@ -19,7 +19,7 @@ export function RecentBookmarks({
           bookmarks.map((bookmark, index) => (
             <Link
               key={`bookmark-${index}`}
-              className="text-sm sm:text-base text-muted-foreground"
+              className="text-sm text-muted-foreground"
               href={`${bookmark.url}`}
               target="_blank"
               rel="noopener noreferrer"
