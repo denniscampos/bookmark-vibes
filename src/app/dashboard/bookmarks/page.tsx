@@ -13,7 +13,7 @@ export default async function Page() {
   return (
     <div className="w-full p-8">
       <div className="flex items-center justify-between">
-        <h2 className="font-semibold text-2xl">My Bookmarks</h2>
+        <h2 className="font-semibold text-lg sm:text-2xl">My Bookmarks</h2>
         <Button size="sm" asChild>
           <Link href="/dashboard/bookmarks/create">Add Bookmark</Link>
         </Button>

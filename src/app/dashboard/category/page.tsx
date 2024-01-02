@@ -9,13 +9,16 @@ export default async function Page() {
   return (
     <div className="w-full p-8">
       <div className="flex items-center justify-between">
-        <h2 className="font-semibold text-2xl">My Categories</h2>
+        <h2 className="font-semibold text-lg sm:text-2xl">My Categories</h2>
         <CategoryDialog dialogDescription="Add a new category" />
       </div>
 
       <div className="w-full flex flex-wrap gap-4 my-5">
         {data?.map((category) => (
-          <div key={category.id} className="border p-4 w-48 hover:bg-muted">
+          <div
+            key={category.id}
+            className="border p-4 w-full md:w-48 hover:bg-muted"
+          >
             <Link
               className="flex gap-2 items-center"
               href={`/dashboard/category/${category.id}`}
