@@ -63,19 +63,25 @@ export const CategoryDialog = ({
           <DialogDescription>{dialogDescription}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+          <div className="flex flex-col gap-4">
+            <Label htmlFor="name" className="">
               Name
             </Label>
             <Input
               id="name"
               onChange={(e) => setCategoryName(e.target.value)}
               className="col-span-3"
+              placeholder="Category name"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button disabled={isLoading} onClick={handleCategory} type="submit">
+          <Button
+            disabled={isLoading}
+            onClick={handleCategory}
+            type="submit"
+            size="sm"
+          >
             {isLoading ? (
               <>
                 <Loader2 className="animate-spin" />

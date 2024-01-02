@@ -86,6 +86,7 @@ export const CategorySelect = ({ categories, form }: CategorySelectProps) => {
                 <FormControl>
                   <Input type="hidden" {...field} aria-hidden="true" />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -94,7 +95,7 @@ export const CategorySelect = ({ categories, form }: CategorySelectProps) => {
         <CategoryDialog
           addCategory={addCategory}
           setAddCategory={setAddCategory}
-          dialogDescription="Add a category to your bookmarks."
+          dialogDescription="Add a category for this bookmark"
         />
       )}
     </>

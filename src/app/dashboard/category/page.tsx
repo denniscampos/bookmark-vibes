@@ -10,7 +10,7 @@ export default async function Page() {
     <div className="w-full p-8">
       <div className="flex items-center justify-between">
         <h2 className="font-semibold text-lg sm:text-2xl">My Categories</h2>
-        <CategoryDialog dialogDescription="Add a new category" />
+        <CategoryDialog dialogDescription="Add a new category for your bookmarks" />
       </div>
 
       <div className="w-full flex flex-wrap gap-4 my-5">
