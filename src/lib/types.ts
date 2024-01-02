@@ -18,3 +18,13 @@ export type CategoryPayload = {
   name: string | null;
   id: string;
 }[];
+
+export type RecentBookmarksPayload = {
+  title: string | null;
+  url: string | null;
+};
+
+export type CategoryOverviewPayload = {
+  name: string | null;
+  id: string | null;
+};

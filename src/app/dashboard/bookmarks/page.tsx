@@ -26,10 +26,14 @@ export default async function Page() {
               key={bookmark.id}
               className="bg-card p-4 flex justify-between items-center"
             >
-              <div>
-                <h3 className="font-semibold text-xl">{bookmark.title}</h3>
-                <p className="text-muted-foreground text-sm">{bookmark.url}</p>
-              </div>
+              <Link href={`${bookmark.url}`} className="w-full" target="_blank">
+                <div>
+                  <h3 className="font-semibold text-xl">{bookmark.title}</h3>
+                  <p className="text-muted-foreground text-sm">
+                    {bookmark.url}
+                  </p>
+                </div>
+              </Link>
               <VerticalDropdownMenu
                 bookmark={bookmark}
                 categoryData={categoryData}

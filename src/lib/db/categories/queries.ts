@@ -131,3 +131,44 @@ export async function getCategoryById({ id }: { id: string }) {
     data,
   };
 }
+
+export async function categoryOverview() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      error: 'You must be logged in to view your categories',
+    };
+  }
+
+  const { data, error, count } = await supabase
+    .from('category')
+    .select('name, id', { count: 'exact' })
+    .eq('user_id', user.id);
+
+  if (error) {
+    return {
+      error: 'There was an error fetching your categories',
+    };
+  }
+
+  const categoryCounts: Record<string, number> = data.reduce(
+    (acc: Record<string, number>, item) => {
+      if (item.name) {
+        acc[item.name] = (acc[item.name] || 0) + 1;
+      }
+      return acc;
+    },
+    {}
+  );
+
+  return {
+    data,
+    count: categoryCounts,
+  };
+}
