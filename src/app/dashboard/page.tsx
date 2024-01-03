@@ -24,7 +24,7 @@ export default async function Page() {
         <h2 className="font-semibold text-lg sm:text-2xl">Dashboard</h2>
       </div>
 
-      <div className="flex flex-wrap gap-5">
+      <div className="flex gap-5 flex-wrap lg:flex-nowrap">
         <RecentBookmarks bookmarks={bookmarks} />
         <CategoryOverview
           categories={categories}

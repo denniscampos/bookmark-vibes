@@ -4,10 +4,10 @@ import { Bookmark, Folder, Home } from 'lucide-react';
 
 export const SidebarNav = () => {
   return (
-    <nav className="bg-card border-r border-gray-500/50 h-screen hidden sm:flex w-[250px] p-4">
+    <nav className="bg-card border-r border-gray-500/50 h-screen hidden sm:flex w-[350px] p-4">
       <ul>
         <li className="flex items-center">
-          <Button variant="link" size="sm" asChild>
+          <Button variant="link" size="sm" className="text-base" asChild>
             <Link href="/dashboard">
               <Home stroke="currentColor" className="w-4 h-4 mr-2 text-white" />{' '}
               Home
@@ -15,7 +15,7 @@ export const SidebarNav = () => {
           </Button>
         </li>
         <li>
-          <Button variant="link" size="sm" asChild>
+          <Button variant="link" size="sm" className="text-base" asChild>
             <Link href="/dashboard/bookmarks">
               <Bookmark
                 stroke="currentColor"
@@ -26,7 +26,7 @@ export const SidebarNav = () => {
           </Button>
         </li>
         <li>
-          <Button variant="link" size="sm" asChild>
+          <Button variant="link" size="sm" className="text-base" asChild>
             <Link href="/dashboard/category">
               <Folder
                 stroke="currentColor"

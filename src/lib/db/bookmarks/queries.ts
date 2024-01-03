@@ -2,7 +2,7 @@
 
 import { initializeAndAuthenticateUser } from '@/utils/initializeAndAuthenticateUser';
 
-export async function getUserBookmarks() {
+export async function getUserBookmarks(page: number) {
   const initResult = await initializeAndAuthenticateUser();
   const { user, supabase } = initResult;
 
@@ -11,12 +11,16 @@ export async function getUserBookmarks() {
       error: initResult.error,
     };
   }
+  const itemsPerPage = 5;
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage - 1;
 
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from('bookmark')
-    .select('id, url, title, category_id, category_name')
+    .select('id, url, title, category_id, category_name', { count: 'exact' })
     .eq('user_id', user.id)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .range(start, end);
 
   if (error) {
     return {
@@ -26,6 +30,8 @@ export async function getUserBookmarks() {
 
   return {
     data,
+    totalCount: count,
+    itemsPerPage,
   };
 }
 

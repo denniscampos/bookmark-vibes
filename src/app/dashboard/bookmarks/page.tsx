@@ -5,9 +5,16 @@ import Link from 'next/link';
 import { VerticalDropdownMenu } from './_components/VerticalDropdownMenu';
 import { getCategories } from '@/lib/db/categories/queries';
 import { CategoryPayloadType } from '@/lib/types';
+import { Pagination } from '@/components/Pagination';
 
-export default async function Page() {
-  const { data } = await getUserBookmarks();
+type PageProps = {
+  searchParams: {
+    page: number;
+  };
+};
+
+export default async function Page({ searchParams: { page = 1 } }: PageProps) {
+  const { data, totalCount, itemsPerPage } = await getUserBookmarks(page);
   const { data: categoryData } = (await getCategories()) as CategoryPayloadType;
 
   return (
@@ -44,6 +51,11 @@ export default async function Page() {
           <p>No bookmarks yet</p>
         )}
       </div>
+      <Pagination
+        page={page}
+        totalCount={totalCount}
+        itemsPerPage={itemsPerPage}
+      />
     </div>
   );
 }

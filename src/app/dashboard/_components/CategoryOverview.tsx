@@ -12,7 +12,7 @@ export function CategoryOverview({
   categoryCount,
 }: CategoryOverviewProps) {
   return (
-    <Card className="p-4 w-[300px]">
+    <Card className="p-4 w-full">
       <div className="flex items-center justify-between">
         <h2 className="font-semibold text-sm sm:text-base">
           Category Overview
