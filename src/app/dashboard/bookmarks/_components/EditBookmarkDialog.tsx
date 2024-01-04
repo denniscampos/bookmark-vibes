@@ -37,6 +37,7 @@ export const EditBookmarkDialog = ({
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(bookmark.title as string);
   const [url, setUrl] = useState(bookmark.url as string);
+  const [categoryId, setCategoryId] = useState('');
   const [categoryName, setCategoryName] = useState(bookmark.url as string);
   const router = useRouter();
 
@@ -47,6 +48,7 @@ export const EditBookmarkDialog = ({
       url,
       id: bookmark.id,
       category_name: categoryName,
+      category_id: categoryId,
     });
     setOpen(false);
     router.refresh();
@@ -92,7 +94,17 @@ export const EditBookmarkDialog = ({
             <Label htmlFor="category" className="text-right">
               Category
             </Label>
-            <Select onValueChange={(value) => setCategoryName(value)}>
+            <Select
+              onValueChange={(value) => {
+                const selectedCategory = categoryData?.find(
+                  (category) => category.name === value
+                );
+                if (selectedCategory) {
+                  setCategoryId(selectedCategory.id as string);
+                  setCategoryName(selectedCategory.name as string);
+                }
+              }}
+            >
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder={bookmark.category_name} />
               </SelectTrigger>
