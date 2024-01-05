@@ -30,7 +30,7 @@ export function CategoryOverview({
             </div>
           ))
         ) : (
-          <p>No categories yet</p>
+          <p className="text-sm text-muted-foreground">No categories yet</p>
         )}
       </div>
     </Card>

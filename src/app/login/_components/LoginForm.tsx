@@ -1,4 +1,4 @@
-import { Icons } from '@/components/Icons';
+import { GoogleAuth } from '@/components/GoogleAuth';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,18 +20,7 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
-          {/* <form action="/auth/signup" method="post">
-            <Button
-              name="provider"
-              value="google"
-              variant="outline"
-              size="sm"
-              className="w-full"
-            >
-              <Icons.google className="mr-2 h-4 w-4" />
-              Google
-            </Button>
-          </form> */}
+          <GoogleAuth />
         </div>
         <div className="relative my-3">
           <div className="absolute inset-0 flex items-center">

@@ -28,7 +28,7 @@ export function RecentBookmarks({
             </Link>
           ))
         ) : (
-          <p>No bookmarks yet</p>
+          <p className="text-sm text-muted-foreground">No bookmarks yet</p>
         )}
       </div>
     </Card>

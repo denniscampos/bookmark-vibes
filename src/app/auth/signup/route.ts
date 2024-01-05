@@ -7,7 +7,6 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const email = String(formData.get('email'));
   const password = String(formData.get('password'));
-  const provider = String(formData.get('provider'));
   const cookieStore = cookies();
   const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
 
@@ -20,35 +19,6 @@ export async function POST(request: Request) {
       emailRedirectTo: `${requestUrl.origin}/auth/callback`,
     },
   });
-
-  // if (provider) {
-  //   const { data, error } = await supabase.auth.signInWithOAuth({
-  //     provider: 'google',
-  //     options: {
-  //       queryParams: {
-  //         access_type: 'offline',
-  //         prompt: 'consent',
-  //       },
-  //       redirectTo: `${process.env.BASE_URL}/auth/callback`,
-  //     },
-  //   });
-
-  //   if (error) {
-  //     console.error({ error });
-  //     return NextResponse.redirect(
-  //       `${requestUrl.origin}/login?error=Could not authenticate user`,
-  //       {
-  //         // a 301 status is required to redirect from a POST to a GET route
-  //         status: 301,
-  //       }
-  //     );
-  //   }
-
-  //   return NextResponse.redirect(data.url, {
-  //     // a 301 status is required to redirect from a POST to a GET route
-  //     status: 301,
-  //   });
-  // }
 
   if (data && data.user) {
     const { error } = await supabase.from('category').insert([

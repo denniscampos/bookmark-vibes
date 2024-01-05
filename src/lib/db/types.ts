@@ -59,24 +59,34 @@ export interface Database {
       }
       bookmark_category: {
         Row: {
+          bookmark_id: string | null
           category_id: string | null
           created_at: string
           id: number
           user_id: string | null
         }
         Insert: {
+          bookmark_id?: string | null
           category_id?: string | null
           created_at?: string
           id?: number
           user_id?: string | null
         }
         Update: {
+          bookmark_id?: string | null
           category_id?: string | null
           created_at?: string
           id?: number
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "bookmark_category_bookmark_id_fkey"
+            columns: ["bookmark_id"]
+            isOneToOne: false
+            referencedRelation: "bookmark"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "bookmark_category_category_id_fkey"
             columns: ["category_id"]

@@ -31,7 +31,9 @@ export function UserStatistics({
 
         <div className="flex justify-between">
           <span>Most Bookmarked Category</span>
-          <Badge>{mostBookmarkedCategory}</Badge>
+          {mostBookmarkedCategory ? (
+            <Badge>{mostBookmarkedCategory}</Badge>
+          ) : null}
         </div>
       </div>
     </Card>

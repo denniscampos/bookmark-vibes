@@ -48,7 +48,7 @@ export default async function Page({ searchParams: { page = 1 } }: PageProps) {
             </div>
           ))
         ) : (
-          <p>No bookmarks yet</p>
+          <p className="text-sm text-muted-foreground">No bookmarks yet</p>
         )}
       </div>
       <Pagination

@@ -14,22 +14,28 @@ export default async function Page() {
       </div>
 
       <div className="w-full flex flex-wrap gap-4 my-5">
-        {data?.map((category) => (
-          <div
-            key={category.id}
-            className="border p-4 w-full md:w-48 hover:bg-muted"
-          >
-            <Link
-              className="flex gap-2 items-center"
-              href={`/dashboard/category/${category.id}`}
+        {data && data.length >= 1 ? (
+          data?.map((category) => (
+            <div
+              key={category.id}
+              className="border p-4 w-full md:w-48 hover:bg-muted"
             >
-              <Folder className="w-4 h-4 text-green-500" />
-              <h2 className="text-sm font-bold text-muted-foreground w-full">
-                {category.name}
-              </h2>
-            </Link>
-          </div>
-        ))}
+              <Link
+                className="flex gap-2 items-center"
+                href={`/dashboard/category/${category.id}`}
+              >
+                <Folder className="w-4 h-4 text-green-500" />
+                <h2 className="text-sm font-bold text-muted-foreground w-full">
+                  {category.name}
+                </h2>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            No categories found. Create one to get started!
+          </p>
+        )}
       </div>
     </div>
   );

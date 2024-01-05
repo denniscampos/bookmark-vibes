@@ -46,7 +46,9 @@ export default async function Page({ params }: PageProps) {
           ))
         ) : (
           <div className="mt-5">
-            <p>No bookmarks found for this category.</p>
+            <p className="text-sm text-muted-foreground">
+              No bookmarks found for this category.
+            </p>
           </div>
         )}
       </div>
