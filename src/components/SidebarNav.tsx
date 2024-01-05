@@ -7,30 +7,33 @@ export const SidebarNav = () => {
     <nav className="bg-card border-r border-gray-500/50 h-screen hidden sm:flex w-[350px] p-4">
       <ul>
         <li className="flex items-center">
-          <Button variant="link" size="sm" className="text-base" asChild>
+          <Button variant="link" size="sm" asChild>
             <Link href="/dashboard">
-              <Home stroke="currentColor" className="w-4 h-4 mr-2 text-white" />{' '}
+              <Home
+                stroke="currentColor"
+                className="w-4 h-4 mr-2 text-black dark:text-white"
+              />{' '}
               Home
             </Link>
           </Button>
         </li>
         <li>
-          <Button variant="link" size="sm" className="text-base" asChild>
+          <Button variant="link" size="sm" asChild>
             <Link href="/dashboard/bookmarks">
               <Bookmark
                 stroke="currentColor"
-                className="w-4 h-4 mr-2 text-white"
+                className="w-4 h-4 mr-2 text-black dark:text-white"
               />{' '}
               My Bookmarks
             </Link>
           </Button>
         </li>
         <li>
-          <Button variant="link" size="sm" className="text-base" asChild>
+          <Button variant="link" size="sm" asChild>
             <Link href="/dashboard/category">
               <Folder
                 stroke="currentColor"
-                className="w-4 h-4 mr-2 text-white"
+                className="w-4 h-4 mr-2 text-black dark:text-white"
               />{' '}
               My Categories
             </Link>

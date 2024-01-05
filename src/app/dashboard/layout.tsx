@@ -1,4 +1,5 @@
 import { SidebarNav } from '@/components/SidebarNav';
+import { Toaster } from '@/components/ui/toaster';
 import { protectedRoutes } from '@/utils/protectedRoutes';
 import { redirect } from 'next/navigation';
 
@@ -17,6 +18,7 @@ export default async function DashboardLayout({
     <div className="flex">
       <SidebarNav />
       {children}
+      <Toaster />
     </div>
   );
 }

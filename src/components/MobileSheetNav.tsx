@@ -42,7 +42,7 @@ export const MobileSheetNav = () => {
                       <Link href="/dashboard">
                         <Home
                           stroke="currentColor"
-                          className="w-4 h-4 mr-2 text-white"
+                          className="w-4 h-4 mr-2 text-black dark:text-white"
                         />{' '}
                         Home
                       </Link>
@@ -55,7 +55,7 @@ export const MobileSheetNav = () => {
                       <Link href="/dashboard/bookmarks">
                         <Bookmark
                           stroke="currentColor"
-                          className="w-4 h-4 mr-2 text-white"
+                          className="w-4 h-4 mr-2 text-black dark:text-white"
                         />{' '}
                         My Bookmarks
                       </Link>
@@ -68,7 +68,7 @@ export const MobileSheetNav = () => {
                       <Link href="/dashboard/category">
                         <Folder
                           stroke="currentColor"
-                          className="w-4 h-4 mr-2 text-white"
+                          className="w-4 h-4 mr-2 text-black dark:text-white"
                         />{' '}
                         My Categories
                       </Link>

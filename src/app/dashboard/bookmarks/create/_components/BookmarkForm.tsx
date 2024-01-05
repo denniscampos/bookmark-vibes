@@ -26,6 +26,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
 
 interface BookmarkFormProps {
   categories: CategoryPayloadType['data'];
@@ -33,6 +34,7 @@ interface BookmarkFormProps {
 export const BookmarkForm = ({ categories }: BookmarkFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<Bookmark>({
     defaultValues: {
@@ -48,8 +50,13 @@ export const BookmarkForm = ({ categories }: BookmarkFormProps) => {
     setIsLoading(true);
     try {
       await createBookmark(data);
+
       router.push('/dashboard/bookmarks');
       router.refresh();
+      toast({
+        title: 'Success',
+        description: 'Bookmark created successfully.',
+      });
     } catch (error) {
       if (error instanceof Error) {
         console.error(error);
