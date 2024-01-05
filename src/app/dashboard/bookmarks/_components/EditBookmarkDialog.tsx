@@ -40,25 +40,23 @@ import { useForm } from 'react-hook-form';
 export const EditBookmarkDialog = ({
   bookmark,
   categoryData,
+  showEditDialog,
+  setShowEditDialog,
 }: {
   bookmark: BookmarkPayload;
   categoryData?: CategoryPayloadType['data'];
+  showEditDialog: boolean;
+  setShowEditDialog: (bool: boolean) => void;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState(bookmark.title as string);
-  const [url, setUrl] = useState(bookmark.url as string);
   const [categoryId, setCategoryId] = useState('');
   const [categoryName, setCategoryName] = useState(bookmark.url as string);
   const router = useRouter();
-
-  //TODO: This file is a WIP. Currently the document. from prev component is disallowing for spacing in inputs
 
   const form = useForm<Bookmark>({
     defaultValues: {
       title: bookmark.title || '',
       url: bookmark.url || '',
-      // check to confirm
       category_id: bookmark.category_id || '',
       category_name: bookmark.category_name || '',
     },
@@ -74,35 +72,14 @@ export const EditBookmarkDialog = ({
       category_name: categoryName,
       category_id: categoryId,
     });
-    // await updateBookmark({
-    //   title,
-    //   url,
-    //   id: bookmark.id,
-    //   category_name: categoryName,
-    //   category_id: categoryId,
-    // });
-    setOpen(false);
+
+    setShowEditDialog(false);
     router.refresh();
     setIsLoading(false);
   };
 
-  // const handleEditBookmark = async () => {
-  //   setIsLoading(true);
-  //   await updateBookmark({
-  //     title,
-  //     url,
-  //     id: bookmark.id,
-  //     category_name: categoryName,
-  //     category_id: categoryId,
-  //   });
-  //   setOpen(false);
-  //   router.refresh();
-  //   setIsLoading(false);
-  // };
-
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>Edit Bookmark</DialogTrigger>
+    <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Bookmark</DialogTitle>
@@ -111,7 +88,7 @@ export const EditBookmarkDialog = ({
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
             <FormField
               control={form.control}
               name="title"
@@ -143,7 +120,7 @@ export const EditBookmarkDialog = ({
             <FormField
               control={form.control}
               name="category_id"
-              render={({ field }) => (
+              render={({}) => (
                 <FormItem>
                   <FormLabel>Cateogry</FormLabel>
                   <Select
@@ -156,9 +133,8 @@ export const EditBookmarkDialog = ({
                         setCategoryName(selectedCategory.name as string);
                       }
                     }}
-                    defaultValue={field.value}
                   >
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder={bookmark.category_name} />
                     </SelectTrigger>
                     <SelectContent>
@@ -177,76 +153,29 @@ export const EditBookmarkDialog = ({
                 </FormItem>
               )}
             />
-            <Button disabled={isLoading} type="submit">
-              {isLoading ? (
-                <>
-                  <Loader2 className="animate-spin" />
-                  Saving..
-                </>
-              ) : (
-                'Save Changes'
-              )}
-            </Button>
+
+            <div className="flex gap-2 items-center justify-end">
+              <Button
+                onClick={() => setShowEditDialog(!showEditDialog)}
+                variant="secondary"
+                type="button"
+                size="sm"
+              >
+                Cancel
+              </Button>
+              <Button disabled={isLoading} type="submit" size="sm">
+                {isLoading ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    Saving..
+                  </>
+                ) : (
+                  'Save Changes'
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
-        {/* <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="title" className="text-right">
-              Title
-            </Label>
-            <Input
-              id="title"
-              name="title"
-              defaultValue={bookmark.title as string}
-              className="col-span-3"
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="url" className="text-right">
-              URL
-            </Label>
-            <Input
-              id="url"
-              name="url"
-              defaultValue={bookmark.url as string}
-              className="col-span-3"
-              onChange={(e) => setUrl(e.target.value)}
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="category" className="text-right">
-              Category
-            </Label>
-            <Select
-              onValueChange={(value) => {
-                const selectedCategory = categoryData?.find(
-                  (category) => category.name === value
-                );
-                if (selectedCategory) {
-                  setCategoryId(selectedCategory.id as string);
-                  setCategoryName(selectedCategory.name as string);
-                }
-              }}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={bookmark.category_name} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {categoryData?.map((category) => (
-                    <SelectItem
-                      key={category.id}
-                      value={category.name as string}
-                    >
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        </div> */}
       </DialogContent>
     </Dialog>
   );

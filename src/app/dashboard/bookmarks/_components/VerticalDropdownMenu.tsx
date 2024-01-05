@@ -21,34 +21,38 @@ export const VerticalDropdownMenu = ({
   bookmark: BookmarkPayload;
   categoryData?: CategoryPayloadType['data'];
 }) => {
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
   /** https://stackoverflow.com/a/77186946 Dialog Issue Fix */
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="outline">
-          <MoreVertical className="w-6 h-6" />
-        </Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent>
-        <DropdownMenuItem
-          onSelect={(e) => {
-            e.preventDefault();
-            document.body.style.pointerEvents = '';
-          }}
-        >
-          <EditBookmarkDialog bookmark={bookmark} categoryData={categoryData} />
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onSelect={(e) => {
-            e.preventDefault();
-            document.body.style.pointerEvents = '';
-          }}
-        >
-          <RemoveBookmarkDialog bookmark={bookmark} />
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button size="icon" variant="outline">
+            <MoreVertical className="w-6 h-6" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          {/* The Fix https://stackoverflow.com/a/77445607  */}
+          <DropdownMenuItem onSelect={() => setShowEditDialog(true)}>
+            Edit Bookmark
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onSelect={(e) => {
+              //TODO remove this and create another state
+              e.preventDefault();
+              document.body.style.pointerEvents = '';
+            }}
+          >
+            <RemoveBookmarkDialog bookmark={bookmark} />
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <EditBookmarkDialog
+        bookmark={bookmark}
+        categoryData={categoryData}
+        showEditDialog={showEditDialog}
+        setShowEditDialog={setShowEditDialog}
+      />
+    </>
   );
 };

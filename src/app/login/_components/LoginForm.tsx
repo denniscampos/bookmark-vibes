@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import Link from 'next/link';
 
 export function LoginForm() {
   return (
@@ -19,7 +20,7 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
-          <form action="/auth/signup" method="post">
+          {/* <form action="/auth/signup" method="post">
             <Button
               name="provider"
               value="google"
@@ -30,7 +31,7 @@ export function LoginForm() {
               <Icons.google className="mr-2 h-4 w-4" />
               Google
             </Button>
-          </form>
+          </form> */}
         </div>
         <div className="relative my-3">
           <div className="absolute inset-0 flex items-center">
@@ -54,18 +55,21 @@ export function LoginForm() {
             <Label htmlFor="password">Password</Label>
             <Input id="password" name="password" type="password" />
 
-            <div className="flex gap-2 justify-between">
+            <div className="flex flex-col gap-2 justify-between">
               <Button className="w-full" size="sm" type="submit">
                 Sign In
               </Button>
 
               <Button
                 className="w-full"
-                formAction="/auth/signup"
                 size="sm"
-                variant="secondary"
+                type="submit"
+                variant="link"
+                asChild
               >
-                Sign Up
+                <Link href="/register">
+                  Don&#39;t have an account? Click here to register
+                </Link>
               </Button>
             </div>
           </form>

@@ -21,48 +21,48 @@ export async function POST(request: Request) {
     },
   });
 
-  if (provider) {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-        },
-        redirectTo: `${process.env.BASE_URL}/auth/callback`,
-      },
-    });
+  // if (provider) {
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: 'google',
+  //     options: {
+  //       queryParams: {
+  //         access_type: 'offline',
+  //         prompt: 'consent',
+  //       },
+  //       redirectTo: `${process.env.BASE_URL}/auth/callback`,
+  //     },
+  //   });
 
-    if (error) {
-      console.error({ error });
-      return NextResponse.redirect(
-        `${requestUrl.origin}/login?error=Could not authenticate user`,
-        {
-          // a 301 status is required to redirect from a POST to a GET route
-          status: 301,
-        }
-      );
-    }
+  //   if (error) {
+  //     console.error({ error });
+  //     return NextResponse.redirect(
+  //       `${requestUrl.origin}/login?error=Could not authenticate user`,
+  //       {
+  //         // a 301 status is required to redirect from a POST to a GET route
+  //         status: 301,
+  //       }
+  //     );
+  //   }
 
-    return NextResponse.redirect(data.url, {
-      // a 301 status is required to redirect from a POST to a GET route
-      status: 301,
-    });
-  }
+  //   return NextResponse.redirect(data.url, {
+  //     // a 301 status is required to redirect from a POST to a GET route
+  //     status: 301,
+  //   });
+  // }
 
-  if (data) {
+  if (data && data.user) {
     const { error } = await supabase.from('category').insert([
       {
         name: 'Food',
-        user_id: data.user?.id,
+        user_id: data.user.id,
       },
       {
         name: 'Tech',
-        user_id: data.user?.id,
+        user_id: data.user.id,
       },
       {
         name: 'Entertainment',
-        user_id: data.user?.id,
+        user_id: data.user.id,
       },
     ]);
 
@@ -72,6 +72,7 @@ export async function POST(request: Request) {
   }
 
   if (error) {
+    console.error({ error });
     return NextResponse.redirect(
       `${requestUrl.origin}/login?error=Could not authenticate user`,
       {
