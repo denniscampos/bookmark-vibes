@@ -2,7 +2,15 @@
 
 A place to track your bookmarks on twitter. Although you can track bookmarks for anything, the intent is to track and keep your bookmarks on twitter organized.
 
-## Setting up the project
+## Tech Stack
+
+- Next.js
+- Shadcn ui / Tailwind
+- Supabase
+- Zod form validation
+- React Hook Form
+
+## Getting Started
 
 1. Create a `.env` file.
 
@@ -19,6 +27,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 GOOGLE_CLIENT_SECRET=
 GOOGLE_CLIENT_ID=
 ```
+
+Take a look at `.env.example` for any env not listed above.
 
 Run
 `pnpm install`
