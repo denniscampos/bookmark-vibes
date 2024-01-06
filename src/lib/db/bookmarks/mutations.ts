@@ -110,6 +110,7 @@ export const updateBookmark = async ({
   }
 
   if (error) {
+    console.error({ error });
     return {
       error: error.message,
     };

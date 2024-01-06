@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { toast } from '@/components/ui/use-toast';
 import { updateBookmark } from '@/lib/db/bookmarks/mutations';
 import { Bookmark, bookmarkSchema } from '@/lib/schemas/bookmarks';
 import { BookmarkPayload, CategoryPayloadType } from '@/lib/types';
@@ -47,7 +48,9 @@ export const EditBookmarkDialog = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [categoryId, setCategoryId] = useState('');
-  const [categoryName, setCategoryName] = useState(bookmark.url as string);
+  const [categoryName, setCategoryName] = useState(
+    bookmark.category_name as string
+  );
   const router = useRouter();
 
   const form = useForm<Bookmark>({
@@ -62,17 +65,33 @@ export const EditBookmarkDialog = ({
 
   const onSubmit = async (data: Bookmark) => {
     setIsLoading(true);
-    await updateBookmark({
-      title: data.title,
-      url: data.url,
-      id: bookmark.id,
-      category_name: categoryName,
-      category_id: categoryId,
-    });
+    try {
+      await updateBookmark({
+        title: data.title,
+        url: data.url,
+        id: bookmark.id,
+        category_name: categoryName,
+        category_id: categoryId ? categoryId : (bookmark.category_id as string),
+      });
 
-    setShowEditDialog(false);
-    router.refresh();
-    setIsLoading(false);
+      toast({
+        title: 'Success',
+        description: 'Bookmark updated successfully.',
+      });
+
+      setShowEditDialog(false);
+      router.refresh();
+    } catch (error) {
+      console.error({ error });
+      if (error instanceof Error) {
+        toast({
+          title: 'Error',
+          description: error.message,
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -119,7 +138,7 @@ export const EditBookmarkDialog = ({
               name="category_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Cateogry</FormLabel>
+                  <FormLabel>Category</FormLabel>
                   <Select
                     onValueChange={(value) => {
                       const selectedCategory = categoryData?.find(

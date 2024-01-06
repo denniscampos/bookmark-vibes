@@ -27,6 +27,7 @@ import {
   FormLabel,
   FormMessage,
 } from './ui/form';
+import { toast } from './ui/use-toast';
 
 interface CategoryDialogProps {
   addCategory?: boolean;
@@ -55,16 +56,31 @@ export const CategoryDialog = ({
 
   const onSubmit = async (data: Category) => {
     setIsLoading(true);
-    await createCategory({ name: data.name });
+    try {
+      await createCategory({ name: data.name });
 
-    if (isBookmarkPage) {
-      setAddCategory?.(false);
-    } else {
-      setOpen(false);
+      toast({
+        title: 'Success',
+        description: 'Category created successfully.',
+      });
+
+      if (isBookmarkPage) {
+        setAddCategory?.(false);
+      } else {
+        setOpen(false);
+      }
+
+      router.refresh();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error',
+          description: error.message,
+        });
+      }
+    } finally {
+      setIsLoading(false);
     }
-
-    router.refresh();
-    setIsLoading(false);
   };
 
   return (

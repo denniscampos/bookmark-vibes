@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/use-toast';
 import { updateCategory } from '@/lib/db/categories/mutations';
 import { Category, categorySchema } from '@/lib/schemas/categories';
 import { CategoryPayloadType } from '@/lib/types';
@@ -49,14 +50,29 @@ export const EditCategoryDialog = ({
 
   const onSubmit = async (data: Category) => {
     setIsLoading(true);
-    await updateCategory({
-      category_id: categoryData?.[0].id as string,
-      category_name: data.name,
-    });
+    try {
+      await updateCategory({
+        category_id: categoryData?.[0].id as string,
+        category_name: data.name,
+      });
 
-    setShowEditDialog(false);
-    router.refresh();
-    setIsLoading(false);
+      toast({
+        title: 'Success',
+        description: 'Category updated successfully.',
+      });
+
+      setShowEditDialog(false);
+      router.refresh();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error',
+          description: error.message,
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

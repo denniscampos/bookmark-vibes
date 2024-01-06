@@ -117,15 +117,14 @@ export function RegisterForm() {
                   Sign Up
                 </Button>
 
-                <Button
-                  className="w-full"
-                  size="sm"
-                  type="submit"
-                  variant="link"
-                  asChild
-                >
-                  <Link href="/login">Already have an account? Click here</Link>
-                </Button>
+                <div className="flex w-full items-center justify-center">
+                  <span className="text-sm text-muted-foreground">
+                    Already have an account?
+                  </span>
+                  <Button size="sm" type="submit" variant="link" asChild>
+                    <Link href="/login">Click here</Link>
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>

@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { toast } from '@/components/ui/use-toast';
 import { removeCategory } from '@/lib/db/categories/mutations';
 import { CategoryPayloadType } from '@/lib/types';
 import { Loader2 } from 'lucide-react';
@@ -27,11 +28,26 @@ export const RemoveCategoryDialog = ({
 
   const handleRemoveCategory = async () => {
     setIsLoading(true);
-    await removeCategory({ id: category?.[0].id as string });
-    setOpen(false);
-    router.push(`/dashboard/category`);
-    router.refresh();
-    setIsLoading(false);
+    try {
+      await removeCategory({ id: category?.[0].id as string });
+      setOpen(false);
+
+      toast({
+        title: 'Success',
+        description: 'Category removed successfully',
+      });
+      router.push(`/dashboard/category`);
+      router.refresh();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error',
+          description: error.message,
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

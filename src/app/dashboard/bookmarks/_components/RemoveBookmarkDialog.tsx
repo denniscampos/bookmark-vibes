@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { toast } from '@/components/ui/use-toast';
 import { removeBookmark } from '@/lib/db/bookmarks/mutations';
 import { BookmarkPayload } from '@/lib/types';
 import { Loader2 } from 'lucide-react';
@@ -27,10 +28,24 @@ export const RemoveBookmarkDialog = ({
 
   const handleRemoveBookmark = async () => {
     setIsLoading(true);
-    await removeBookmark({ id: bookmark.id });
-    setOpen(false);
-    router.refresh();
-    setIsLoading(false);
+    try {
+      await removeBookmark({ id: bookmark.id });
+      setOpen(false);
+      toast({
+        title: 'Success',
+        description: 'Bookmark removed successfully.',
+      });
+      router.refresh();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error',
+          description: error.message,
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
