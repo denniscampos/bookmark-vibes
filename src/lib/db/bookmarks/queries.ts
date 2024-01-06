@@ -121,3 +121,30 @@ export async function userBookmarksThisMonth() {
     totalBookmarkCountForTheMonth: count,
   };
 }
+
+export async function searchBookmarks(query: string) {
+  const initResult = await initializeAndAuthenticateUser();
+  const { user, supabase } = initResult;
+
+  if (initResult.error || !user) {
+    return {
+      error: initResult.error,
+    };
+  }
+
+  const { data, error } = await supabase
+    .from('bookmark')
+    .select('title')
+    .textSearch('title', `${query}`);
+
+  if (error) {
+    console.log({ error });
+    return {
+      error: 'There was an error fetching your bookmarks',
+    };
+  }
+
+  return {
+    searchQueryData: data,
+  };
+}

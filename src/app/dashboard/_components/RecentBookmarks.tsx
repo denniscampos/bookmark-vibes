@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { RecentBookmarksPayload } from '@/lib/types';
+import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
 type RecentBookmarksProps = RecentBookmarksPayload;
@@ -19,7 +20,7 @@ export function RecentBookmarks({
           bookmarks.map((bookmark, index) => (
             <Link
               key={`bookmark-${index}`}
-              className="text-sm text-muted-foreground"
+              className="text-sm text-muted-foreground hover:text-muted-foreground/60 flex items-center"
               href={`${bookmark.url}`}
               target="_blank"
               rel="noopener noreferrer"

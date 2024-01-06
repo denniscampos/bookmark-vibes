@@ -33,7 +33,7 @@ export default async function Page({ params }: PageProps) {
               <Link href={`${bookmark.url}`} className="w-full" target="_blank">
                 <div>
                   <h3 className="font-semibold text-xl">{bookmark.title}</h3>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-muted-foreground text-sm break-all">
                     {bookmark.url}
                   </p>
                 </div>
