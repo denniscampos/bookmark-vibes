@@ -35,6 +35,7 @@ export function RegisterForm() {
               </span>
             </div>
           </div>
+
           <form
             className="flex flex-col space-y-3"
             action="/auth/signup"

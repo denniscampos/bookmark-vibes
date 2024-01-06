@@ -20,27 +20,6 @@ export async function POST(request: Request) {
     },
   });
 
-  if (data && data.user) {
-    const { error } = await supabase.from('category').insert([
-      {
-        name: 'Food',
-        user_id: data.user.id,
-      },
-      {
-        name: 'Tech',
-        user_id: data.user.id,
-      },
-      {
-        name: 'Entertainment',
-        user_id: data.user.id,
-      },
-    ]);
-
-    if (error) {
-      throw new Error(error.message);
-    }
-  }
-
   if (error) {
     console.error({ error });
     return NextResponse.redirect(

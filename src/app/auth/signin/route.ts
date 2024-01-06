@@ -1,14 +1,9 @@
 import { createClient } from '@/utils/supabase/server';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { z } from 'zod';
 import { loginSchema } from '@/lib/schemas/auth';
 
-export async function POST(request: Request) {
-  const requestUrl = new URL(request.url);
-  const formData = await request.formData();
-  const email = String(formData.get('email'));
-  const password = String(formData.get('password'));
+export async function POST(request: NextRequest) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
@@ -20,42 +15,22 @@ export async function POST(request: Request) {
    */
 
   try {
-    const body = loginSchema.parse({
-      email,
-      password,
-    });
+    const body = await request.json();
+    const { email, password } = loginSchema.parse(body);
 
     const { error } = await supabase.auth.signInWithPassword({
-      email: body.email,
-      password: body.password,
+      email: email,
+      password: password,
     });
 
     if (error) {
-      return NextResponse.redirect(
-        `${requestUrl.origin}/login?error=Could not authenticate user`,
-        {
-          // a 301 status is required to redirect from a POST to a GET route
-          status: 301,
-        }
-      );
+      throw new Error(error.message);
     }
+
+    return NextResponse.json({ body });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.error(error.issues);
-      return NextResponse.redirect(
-        `${requestUrl.origin}/login?error=${error.issues[0].message}`,
-        {
-          // a 301 status is required to redirect from a POST to a GET route
-          status: 301,
-        }
-      );
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
   }
-
-  const dashboardUrl = `${requestUrl.origin}/dashboard`;
-
-  return NextResponse.redirect(dashboardUrl, {
-    // a 301 status is required to redirect from a POST to a GET route
-    status: 301,
-  });
 }
