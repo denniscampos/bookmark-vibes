@@ -38,8 +38,6 @@ export const EditCategoryDialog = ({
   setShowEditDialog,
 }: EditCategoryDialogProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  //   const [categoryId, setCategoryId] = useState('');
-  //   const [categoryName, setCategoryName] = useState(bookmark.url as string);
   const router = useRouter();
 
   const form = useForm<Category>({

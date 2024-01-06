@@ -11,6 +11,7 @@ import { MoreVertical } from 'lucide-react';
 import { EditCategoryDialog } from './EditCategoryDialog';
 import { CategoryPayloadType } from '@/lib/types';
 import { useState } from 'react';
+import { RemoveCategoryDialog } from './RemoveCatelogDialog';
 
 export const VerticalCategoryDropdownMenu = ({
   categoryData,
@@ -39,8 +40,7 @@ export const VerticalCategoryDropdownMenu = ({
               document.body.style.pointerEvents = '';
             }}
           >
-            Placeholder
-            {/* <RemoveBookmarkDialog bookmark={bookmark} /> */}
+            <RemoveCategoryDialog category={categoryData} />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

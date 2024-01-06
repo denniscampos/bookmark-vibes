@@ -108,6 +108,7 @@ export const removeCategory = async ({ id }: { id: string }) => {
     .match({ user_id: user.id, id });
 
   if (error) {
+    console.error({ error });
     return {
       error: error.message,
     };
