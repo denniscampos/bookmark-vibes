@@ -12,11 +12,17 @@ import { SearchBookmarks } from './_components/SearchBookmarks';
 type PageProps = {
   searchParams: {
     page: number;
+    query: string;
   };
 };
 
-export default async function Page({ searchParams: { page = 1 } }: PageProps) {
-  const { data, totalCount, itemsPerPage } = await getUserBookmarks(page);
+export default async function Page({
+  searchParams: { page = 1, query = '' },
+}: PageProps) {
+  const { data, totalCount, itemsPerPage } = await getUserBookmarks(
+    page,
+    query
+  );
   const { data: categoryData } = (await getCategories()) as CategoryPayloadType;
 
   return (

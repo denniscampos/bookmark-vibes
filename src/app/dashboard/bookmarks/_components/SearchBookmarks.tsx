@@ -22,6 +22,7 @@ export function SearchBookmarks() {
             }
           );
         }}
+        defaultValue={searchParams.get('query') ?? ''}
       />
     </>
   );

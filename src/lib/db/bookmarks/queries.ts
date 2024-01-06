@@ -2,7 +2,7 @@
 
 import { initializeAndAuthenticateUser } from '@/utils/initializeAndAuthenticateUser';
 
-export async function getUserBookmarks(page: number) {
+export async function getUserBookmarks(page: number, query: string) {
   const initResult = await initializeAndAuthenticateUser();
   const { user, supabase } = initResult;
 
@@ -15,12 +15,18 @@ export async function getUserBookmarks(page: number) {
   const start = (page - 1) * itemsPerPage;
   const end = start + itemsPerPage - 1;
 
-  const { data, error, count } = await supabase
+  let queryBuilder = supabase
     .from('bookmark')
     .select('id, url, title, category_id, category_name', { count: 'exact' })
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .range(start, end);
+
+  if (query) {
+    queryBuilder = queryBuilder.textSearch('title', query);
+  }
+
+  const { data, error, count } = await queryBuilder;
 
   if (error) {
     return {
