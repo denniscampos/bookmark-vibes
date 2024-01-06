@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
-import { LoginType, loginSchema } from '@/lib/schemas/auth';
+import { Auth, authSchema } from '@/lib/schemas/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -28,15 +28,15 @@ import { useForm } from 'react-hook-form';
 
 export function LoginForm() {
   const router = useRouter();
-  const form = useForm<LoginType>({
+  const form = useForm<Auth>({
     defaultValues: {
       email: '',
       password: '',
     },
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(authSchema),
   });
 
-  const onSubmit = async (data: LoginType) => {
+  const onSubmit = async (data: Auth) => {
     const url = new URL(`/auth/signin`, process.env.NEXT_PUBLIC_BASE_URL).href;
     const res = await fetch(url, {
       method: 'POST',

@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { loginSchema } from '@/lib/schemas/auth';
+import { authSchema } from '@/lib/schemas/auth';
 
 export async function POST(request: NextRequest) {
   const cookieStore = cookies();
@@ -16,11 +16,11 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { email, password } = loginSchema.parse(body);
+    const { email, password } = authSchema.parse(body);
 
     const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
+      email,
+      password,
     });
 
     if (error) {
