@@ -20,7 +20,9 @@ export default async function Page({ params }: PageProps) {
     <div className="w-full p-8">
       <Card className="flex flex-col p-4 gap-2">
         <h2 className="text-xl font-bold text-muted-foreground">Category</h2>
-        <p className="font-semibold text-4xl">{category?.[0].name}</p>
+        <p className="font-semibold text-2xl sm:text-4xl">
+          {category?.[0].name}
+        </p>
       </Card>
 
       <div className="flex flex-col gap-4 my-5">
@@ -32,8 +34,10 @@ export default async function Page({ params }: PageProps) {
             >
               <Link href={`${bookmark.url}`} className="w-full" target="_blank">
                 <div>
-                  <h3 className="font-semibold text-xl">{bookmark.title}</h3>
-                  <p className="text-muted-foreground text-sm break-all">
+                  <h3 className="font-semibold text-base sm:text-xl">
+                    {bookmark.title}
+                  </h3>
+                  <p className="text-muted-foreground text-xs sm:text-sm break-all">
                     {bookmark.url}
                   </p>
                 </div>

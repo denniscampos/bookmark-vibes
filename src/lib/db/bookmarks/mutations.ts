@@ -99,6 +99,16 @@ export const updateBookmark = async ({
     .eq('id', id)
     .match({ user_id: user.id });
 
+  if (category_id) {
+    await supabase
+      .from('bookmark_category')
+      .update({
+        category_id,
+      })
+      .eq('bookmark_id', id)
+      .match({ user_id: user.id });
+  }
+
   if (error) {
     return {
       error: error.message,

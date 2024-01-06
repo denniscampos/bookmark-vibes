@@ -41,12 +41,14 @@ export default async function Page({ searchParams: { page = 1 } }: PageProps) {
             >
               <Link href={`${bookmark.url}`} className="w-full" target="_blank">
                 <div>
-                  <h3 className="font-semibold text-xl">{bookmark.title}</h3>
-                  <p className="text-muted-foreground text-sm break-all flex items-center">
+                  <h3 className="font-semibold text-base sm:text-xl">
+                    {bookmark.title}
+                  </h3>
+                  <p className="text-muted-foreground text-xs sm:text-sm break-all flex items-center">
                     {bookmark.url}
                     <ExternalLink
                       stroke="currentColor"
-                      className="w-4 h-4 inline-block ml-1 dark:text-white text-black/80"
+                      className="w-4 h-4 hidden sm:inline-block ml-1 dark:text-white text-black/80"
                     />
                   </p>
                 </div>
