@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@/components/ErrorMessage';
 import { GoogleAuth } from '@/components/GoogleAuth';
 import { Button } from '@/components/ui/button';
 import {
@@ -33,6 +34,7 @@ export function LoginForm() {
           </div>
         </div>
         <div>
+          <ErrorMessage />
           <form
             className="flex flex-col space-y-3"
             action="/auth/signin"
