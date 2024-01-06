@@ -120,7 +120,7 @@ export const EditBookmarkDialog = ({
             <FormField
               control={form.control}
               name="category_id"
-              render={({}) => (
+              render={({ field }) => (
                 <FormItem>
                   <FormLabel>Cateogry</FormLabel>
                   <Select
@@ -133,6 +133,7 @@ export const EditBookmarkDialog = ({
                         setCategoryName(selectedCategory.name as string);
                       }
                     }}
+                    defaultValue={bookmark.category_name || field.value}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder={bookmark.category_name} />
@@ -142,7 +143,7 @@ export const EditBookmarkDialog = ({
                         {categoryData?.map((category) => (
                           <SelectItem
                             key={category.id}
-                            value={category.name as string}
+                            value={category.name ?? ''}
                           >
                             {category.name}
                           </SelectItem>

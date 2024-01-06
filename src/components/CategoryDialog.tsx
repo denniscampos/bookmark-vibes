@@ -13,9 +13,20 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { createCategory } from '@/lib/db/categories/mutations';
+import { Category, categorySchema } from '@/lib/schemas/categories';
 import { Loader2 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from './ui/form';
 
 interface CategoryDialogProps {
   addCategory?: boolean;
@@ -30,14 +41,21 @@ export const CategoryDialog = ({
 }: CategoryDialogProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [categoryName, setCategoryName] = useState('');
   const router = useRouter();
   const pathname = usePathname();
+
+  const form = useForm<Category>({
+    defaultValues: {
+      name: '',
+    },
+    resolver: zodResolver(categorySchema),
+  });
+
   const isBookmarkPage = pathname === '/dashboard/bookmarks/create';
 
-  const handleCategory = async () => {
+  const onSubmit = async (data: Category) => {
     setIsLoading(true);
-    await createCategory({ name: categoryName });
+    await createCategory({ name: data.name });
 
     if (isBookmarkPage) {
       setAddCategory?.(false);
@@ -62,36 +80,36 @@ export const CategoryDialog = ({
           <DialogTitle>Add a Category</DialogTitle>
           <DialogDescription>{dialogDescription}</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="flex flex-col gap-4">
-            <Label htmlFor="name" className="">
-              Name
-            </Label>
-            <Input
-              id="name"
-              onChange={(e) => setCategoryName(e.target.value)}
-              className="col-span-3"
-              placeholder="Category name"
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button
-            disabled={isLoading}
-            onClick={handleCategory}
-            type="submit"
-            size="sm"
+        <Form {...form}>
+          <form
+            className="grid gap-4 py-4"
+            onSubmit={form.handleSubmit(onSubmit)}
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="animate-spin" />
-                Adding...
-              </>
-            ) : (
-              'Add Category'
-            )}
-          </Button>
-        </DialogFooter>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Entertainment" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button disabled={isLoading} type="submit" size="sm">
+              {isLoading ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Adding...
+                </>
+              ) : (
+                'Add Category'
+              )}
+            </Button>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
