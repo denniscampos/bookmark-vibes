@@ -4,7 +4,7 @@ import {
   getCategoryById,
 } from '@/lib/db/categories/queries';
 import Link from 'next/link';
-import { VerticalDropdownMenu } from '../../bookmarks/_components/VerticalDropdownMenu';
+import { VerticalCategoryDropdownMenu } from '../_components/VerticalCategogryDropdownMenu';
 
 type PageProps = {
   params: {
@@ -18,11 +18,16 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="w-full p-8">
-      <Card className="flex flex-col p-4 gap-2">
-        <h2 className="text-xl font-bold text-muted-foreground">Category</h2>
-        <p className="font-semibold text-2xl sm:text-4xl">
-          {category?.[0].name}
-        </p>
+      <Card className="flex items-center justify-between p-4 gap-2">
+        <div>
+          <h2 className="text-xl font-bold text-muted-foreground">Category</h2>
+          <p className="font-semibold text-2xl sm:text-4xl">
+            {category?.[0].name}
+          </p>
+        </div>
+        <div>
+          <VerticalCategoryDropdownMenu categoryData={category} />
+        </div>
       </Card>
 
       <div className="flex flex-col gap-4 my-5">
@@ -42,10 +47,6 @@ export default async function Page({ params }: PageProps) {
                   </p>
                 </div>
               </Link>
-              {/* <VerticalDropdownMenu
-                bookmark={bookmark}
-                categoryData={categoryData}
-              /> */}
             </div>
           ))
         ) : (

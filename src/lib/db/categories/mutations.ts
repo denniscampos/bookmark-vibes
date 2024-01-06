@@ -52,7 +52,13 @@ export const createCategory = async ({ name }: CategoryType) => {
   };
 };
 
-export const updateCategory = async ({ name }: { name: string }) => {
+export const updateCategory = async ({
+  category_id,
+  category_name,
+}: {
+  category_id: string;
+  category_name: string;
+}) => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
@@ -69,8 +75,10 @@ export const updateCategory = async ({ name }: { name: string }) => {
   const { error } = await supabase
     .from('category')
     .update({
-      name,
+      id: category_id,
+      name: category_name,
     })
+    .eq('id', category_id)
     .match({ user_id: user.id });
 
   if (error) {
