@@ -28,7 +28,7 @@ export default async function Page({ searchParams: { page = 1 } }: PageProps) {
         </Button>
       </div>
 
-      <div className="my-5 w-[400px]">
+      <div className="my-5 w-full sm:w-[400px]">
         <SearchBookmarks />
       </div>
 
