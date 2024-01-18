@@ -13,15 +13,17 @@ type PageProps = {
   searchParams: {
     page: number;
     query: string;
+    category: string;
   };
 };
 
 export default async function Page({
-  searchParams: { page = 1, query = '' },
+  searchParams: { page = 1, query = '', category },
 }: PageProps) {
   const { data, totalCount, itemsPerPage } = await getUserBookmarks(
     page,
-    query
+    query,
+    category
   );
   const { data: categoryData } = (await getCategories()) as CategoryPayloadType;
 
@@ -34,8 +36,8 @@ export default async function Page({
         </Button>
       </div>
 
-      <div className="my-5 w-full sm:w-[400px]">
-        <SearchBookmarks />
+      <div className="flex flex-col sm:flex-row justify-between my-5 w-full">
+        <SearchBookmarks categoryData={categoryData} />
       </div>
 
       <div className="flex flex-col w-full gap-4">
