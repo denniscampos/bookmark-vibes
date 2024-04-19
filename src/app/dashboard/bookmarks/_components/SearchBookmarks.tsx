@@ -94,7 +94,3 @@ function SelectCategory({ categoryData, search, router }: SelectCategoryProps) {
     </Select>
   );
 }
-
-//TODO:
-// Some categories renders and some an empty list.. investigate
-// move to its own component
