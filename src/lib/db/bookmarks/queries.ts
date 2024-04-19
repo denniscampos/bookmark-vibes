@@ -2,7 +2,11 @@
 
 import { initializeAndAuthenticateUser } from '@/utils/initializeAndAuthenticateUser';
 
-export async function getUserBookmarks(page: number, query: string) {
+export async function getUserBookmarks(
+  page: number,
+  query: string,
+  categoryName: string
+) {
   const initResult = await initializeAndAuthenticateUser();
   const { user, supabase } = initResult;
 
@@ -17,10 +21,16 @@ export async function getUserBookmarks(page: number, query: string) {
 
   let queryBuilder = supabase
     .from('bookmark')
-    .select('id, url, title, category_id, category_name', { count: 'exact' })
+    .select('id, url, title, category_id, category_name', {
+      count: 'exact',
+    })
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .range(start, end);
+
+  if (categoryName) {
+    queryBuilder = queryBuilder.eq('category_name', categoryName);
+  }
 
   if (query) {
     queryBuilder = queryBuilder.textSearch('title', query);
