@@ -1,4 +1,3 @@
-import { ProfileUpload } from './ProfileUpload';
 import { UpdateProfile } from './_components/UpdateProfile';
 
 export default function Page() {
@@ -6,7 +5,6 @@ export default function Page() {
     <div>
       <h1>Profile page.</h1>
       <UpdateProfile />
-      {/* <ProfileUpload /> */}
     </div>
   );
 }
