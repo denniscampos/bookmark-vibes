@@ -3,10 +3,9 @@ import { Button } from './ui/button';
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import { ModeToggle } from './Toggle';
-import { HomeOrDashboard } from './HomeOrDashboard';
 import { ShowNavbar } from './ShowNavbar';
-import { MobileSheetNav } from './MobileSheetNav';
 import { RenderLogoNav } from './RenderLogoNav';
+import { UserNav } from './UserNav';
 
 export async function Navbar() {
   const cookieStore = cookies();
@@ -23,10 +22,9 @@ export async function Navbar() {
           <RenderLogoNav />
           <div className="flex items-center gap-4">
             <ModeToggle />
+
             {user ? (
-              <form action="/auth/signout" method="post">
-                <Button size="sm">Logout</Button>
-              </form>
+              <UserNav user={user} />
             ) : (
               <Button size="sm" asChild>
                 <Link href="/login">Login</Link>
