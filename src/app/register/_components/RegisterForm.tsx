@@ -22,11 +22,13 @@ import { toast } from '@/components/ui/use-toast';
 import { Auth, authSchema } from '@/lib/schemas/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { signup } from '../actions';
+import { useState } from 'react';
 
 export function RegisterForm() {
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<Auth>({
     defaultValues: {
       email: '',
@@ -36,24 +38,22 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: Auth) => {
-    const url = new URL(`/auth/signup`, process.env.NEXT_PUBLIC_BASE_URL).href;
-    const res = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+    setLoading(true);
+    try {
+      await signup(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error',
+          description: error.message,
+          variant: 'destructive',
+        });
+      }
 
-    const errorMessage = await res.json();
-
-    if (!res.ok) {
-      toast({
-        title: 'Error',
-        description: errorMessage.error,
-      });
-
-      return;
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-
-    router.push('/verify-email');
   };
 
   return (
@@ -113,15 +113,20 @@ export function RegisterForm() {
               />
 
               <div className="flex flex-col gap-2 justify-between">
-                <Button className="w-full" size="sm" type="submit">
-                  Sign Up
+                <Button
+                  disabled={loading}
+                  className="w-full"
+                  size="sm"
+                  type="submit"
+                >
+                  {loading ? 'Signing up...' : 'Sign Up'}
                 </Button>
 
                 <div className="flex w-full items-center justify-center">
                   <span className="text-sm text-muted-foreground">
                     Already have an account?
                   </span>
-                  <Button size="sm" type="submit" variant="link" asChild>
+                  <Button size="sm" variant="link" asChild>
                     <Link href="/login">Click here</Link>
                   </Button>
                 </div>

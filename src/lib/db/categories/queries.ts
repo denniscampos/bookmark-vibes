@@ -1,9 +1,9 @@
+'use server';
+
 import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
 
 export async function getCategories() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },
@@ -32,8 +32,7 @@ export async function getCategories() {
 }
 
 export async function getUserCategories() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },
@@ -71,8 +70,7 @@ export async function getBookmarksByCategoryId({
 }: {
   categoryId: string;
 }) {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },
@@ -102,8 +100,7 @@ export async function getBookmarksByCategoryId({
 }
 
 export async function getCategoryById({ id }: { id: string }) {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },
@@ -133,8 +130,7 @@ export async function getCategoryById({ id }: { id: string }) {
 }
 
 export async function categoryOverview() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },
