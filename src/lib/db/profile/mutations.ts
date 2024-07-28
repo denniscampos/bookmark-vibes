@@ -1,8 +1,7 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
-import { Database, Tables } from '../types';
+import { Tables } from '../types';
 
 type BaseProfile = Omit<Tables<'profile'>, 'created_at' | 'updated_at'>;
 type UpdateProfile = Omit<BaseProfile, 'id'>;
@@ -14,8 +13,7 @@ export const updateProfle = async ({
   name: string;
   avatarUrl: string;
 }) => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },

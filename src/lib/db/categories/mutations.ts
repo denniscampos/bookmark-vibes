@@ -1,15 +1,13 @@
 'use server';
 
 import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
 
 type CategoryType = {
   name: string;
 };
 
 export const createCategory = async ({ name }: CategoryType) => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },
@@ -59,8 +57,7 @@ export const updateCategory = async ({
   category_id: string;
   category_name: string;
 }) => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },
@@ -89,8 +86,7 @@ export const updateCategory = async ({
 };
 
 export const removeCategory = async ({ id }: { id: string }) => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },

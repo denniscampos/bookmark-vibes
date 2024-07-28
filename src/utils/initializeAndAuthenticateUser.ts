@@ -1,10 +1,8 @@
 'use server';
 
-import { cookies } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
 export async function initializeAndAuthenticateUser() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },

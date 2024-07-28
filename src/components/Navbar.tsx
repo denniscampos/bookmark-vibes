@@ -1,15 +1,13 @@
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
 import { ModeToggle } from './Toggle';
 import { ShowNavbar } from './ShowNavbar';
 import { RenderLogoNav } from './RenderLogoNav';
 import { UserNav } from './UserNav';
 
 export async function Navbar() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const {
     data: { user },

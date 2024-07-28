@@ -1,13 +1,14 @@
 import { Button } from '@/components/ui/button';
 
-import { getUserBookmarks, searchBookmarks } from '@/lib/db/bookmarks/queries';
+import { getUserBookmarks } from '@/lib/db/bookmarks/queries';
 import Link from 'next/link';
 import { VerticalDropdownMenu } from './_components/VerticalDropdownMenu';
 import { getCategories } from '@/lib/db/categories/queries';
 import { CategoryPayloadType } from '@/lib/types';
 import { Pagination } from '@/components/Pagination';
 import { ExternalLink } from 'lucide-react';
-import { SearchBookmarks } from './_components/SearchBookmarks';
+import { SearchBookmark } from './_components/SearchBookmark';
+import { FilterCategory } from './_components/FilterCategory';
 
 type PageProps = {
   searchParams: {
@@ -25,7 +26,7 @@ export default async function Page({
     query,
     category
   );
-  const { data: categoryData } = (await getCategories()) as CategoryPayloadType;
+  const { data: categories } = (await getCategories()) as CategoryPayloadType;
 
   return (
     <div className="w-full p-8">
@@ -37,7 +38,8 @@ export default async function Page({
       </div>
 
       <div className="flex flex-col sm:flex-row justify-between my-5 w-full">
-        <SearchBookmarks categoryData={categoryData} />
+        <SearchBookmark />
+        <FilterCategory categories={categories} />
       </div>
 
       <div className="flex flex-col w-full gap-4">
@@ -63,7 +65,7 @@ export default async function Page({
               </Link>
               <VerticalDropdownMenu
                 bookmark={bookmark}
-                categoryData={categoryData}
+                categoryData={categories}
               />
             </div>
           ))

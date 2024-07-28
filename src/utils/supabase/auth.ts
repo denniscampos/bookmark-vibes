@@ -1,8 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
 
-const cookieStore = cookies();
-const supabase = createClient(cookieStore);
+const supabase = createClient();
 
 /**
  * Helper to grab the current user session

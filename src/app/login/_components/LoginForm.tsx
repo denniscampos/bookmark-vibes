@@ -23,11 +23,12 @@ import { toast } from '@/components/ui/use-toast';
 import { Auth, authSchema } from '@/lib/schemas/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { login } from '../actions';
+import { useState } from 'react';
 
 export function LoginForm() {
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const form = useForm<Auth>({
     defaultValues: {
       email: '',
@@ -37,24 +38,21 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: Auth) => {
-    const url = new URL(`/auth/signin`, process.env.NEXT_PUBLIC_BASE_URL).href;
-    const res = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-
-    const errorMessage = await res.json();
-
-    if (!res.ok) {
-      toast({
-        title: 'Error',
-        description: errorMessage.error,
-      });
-
-      return;
+    setLoading(true);
+    try {
+      await login(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error',
+          description: error.message,
+          variant: 'destructive',
+        });
+      }
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-
-    router.push('/dashboard');
   };
 
   return (
@@ -113,15 +111,20 @@ export function LoginForm() {
               />
 
               <div className="flex flex-col gap-2 justify-between">
-                <Button className="w-full" size="sm" type="submit">
-                  Sign In
+                <Button
+                  disabled={loading}
+                  className="w-full"
+                  size="sm"
+                  type="submit"
+                >
+                  {loading ? 'Logging in...' : 'Sign In'}
                 </Button>
 
                 <div className="flex w-full items-center justify-center">
                   <span className="text-sm text-muted-foreground">
                     Don&#39;t have an account?{' '}
                   </span>
-                  <Button size="sm" type="submit" variant="link" asChild>
+                  <Button size="sm" variant="link" asChild>
                     <Link href="/register">Sign up now</Link>
                   </Button>
                 </div>

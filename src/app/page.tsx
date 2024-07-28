@@ -1,13 +1,13 @@
 import { FeatureSection } from '@/components/FeatureSection';
 import { Button } from '@/components/ui/button';
-import { protectedRoutes } from '@/utils/protectedRoutes';
+import { createClient } from '@/utils/supabase/server';
 import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function Home() {
-  /** Although a protected route function, it is here to make sure
-   * user gets redirected to the dashboard. Just to avoid creating a new function */
-  const user = await protectedRoutes();
+  const supabase = createClient();
+  const { data: session } = await supabase.auth.getUser();
+  const user = session?.user;
 
   return (
     <main className="flex flex-col items-center justify-center gap-5 h-auto sm:h-screen mt-10 sm:mt-0 p-4">
@@ -19,7 +19,8 @@ export default async function Home() {
       </p>
       <Button asChild>
         <Link href={user ? '/dashboard' : '/login'} className="flex gap-2">
-          Get Started <ExternalLink className="w-4 h-4" />
+          {user ? 'Dashboard' : 'Get Started'}{' '}
+          <ExternalLink className="w-4 h-4" />
         </Link>
       </Button>
 

@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import Link from 'next/link';
+import { signout } from '@/actions/signout';
 
 type UserProps = {
   user: User | null;
@@ -24,15 +25,25 @@ export function UserNav({ user }: UserProps) {
         <DropdownMenuLabel>{user?.email ?? 'Welcome'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="/dashboard/profile">Profile</Link>
+          <Link className="w-full" href="/dashboard/profile">
+            Profile
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/dashboard/settings">Settings</Link>
+          <Link className="w-full" href="/dashboard/settings">
+            Settings
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <form action="/auth/signout" method="post">
-            <button>Log out</button>
+          <form className="w-full">
+            <button
+              className="w-full text-start"
+              formAction={signout}
+              type="submit"
+            >
+              Log out
+            </button>
           </form>
         </DropdownMenuItem>
       </DropdownMenuContent>
