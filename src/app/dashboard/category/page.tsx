@@ -16,20 +16,16 @@ export default async function Page() {
       <div className="w-full flex flex-wrap gap-4 my-5">
         {data && data.length >= 1 ? (
           data?.map((category) => (
-            <div
+            <Link
               key={category.id}
-              className="border p-4 w-full md:w-48 hover:bg-muted"
+              className="flex gap-2 items-center border w-full md:w-[200px] p-4 md:w-49 hover:bg-muted"
+              href={`/dashboard/category/${category.id}`}
             >
-              <Link
-                className="flex gap-2 items-center"
-                href={`/dashboard/category/${category.id}`}
-              >
-                <Folder className="w-4 h-4 text-green-500" />
-                <h2 className="text-sm font-bold text-muted-foreground w-full">
-                  {category.name}
-                </h2>
-              </Link>
-            </div>
+              <Folder className="w-4 h-4 text-green-500" />
+              <h2 className="text-sm font-bold text-muted-foreground w-full">
+                {category.name}
+              </h2>
+            </Link>
           ))
         ) : (
           <p className="text-sm text-muted-foreground">
