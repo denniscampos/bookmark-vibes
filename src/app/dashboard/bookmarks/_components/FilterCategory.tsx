@@ -43,14 +43,14 @@ export function FilterCategory({
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Categories</SelectLabel>
+          <SelectItem value="All">All</SelectItem>
           {categories ? (
             categories.map((category) => (
-              <>
-                <SelectItem value="All">All</SelectItem>
-                <SelectItem key={category.id} value={category.name as string}>
+              <div key={category.id}>
+                <SelectItem value={category.name as string}>
                   {category.name}
                 </SelectItem>
-              </>
+              </div>
             ))
           ) : (
             <SelectItem value="No categories">No categories</SelectItem>

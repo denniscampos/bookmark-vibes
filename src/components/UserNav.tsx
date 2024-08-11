@@ -10,18 +10,19 @@ import {
 } from './ui/dropdown-menu';
 import Link from 'next/link';
 import { signout } from '@/actions/signout';
+import { CircleUser } from 'lucide-react';
+import { Button } from './ui/button';
 
-type UserProps = {
-  user: User | null;
-};
-
-export function UserNav({ user }: UserProps) {
+export function UserNav({ user }: { user: User | null }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <UserAvatar user={user} />
+      <DropdownMenuTrigger asChild>
+        <Button variant="secondary" size="icon" className="rounded-full">
+          <UserAvatar user={user} />
+          <span className="sr-only">Toggle user menu</span>
+        </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end">
         <DropdownMenuLabel>{user?.email ?? 'Welcome'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
@@ -56,8 +57,10 @@ function UserAvatar({ user }: { user: User | null }) {
 
   return (
     <Avatar>
-      <AvatarImage src={user?.user_metadata.avatar_url} alt="@shadcn" />
-      <AvatarFallback>{user?.email?.slice(0, 2)}</AvatarFallback>
+      <AvatarImage src={user?.user_metadata.avatar_url} alt="" />
+      <AvatarFallback>
+        <CircleUser size="icon" className="h-5 w-5" />
+      </AvatarFallback>
     </Avatar>
   );
 }
