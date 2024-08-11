@@ -1,6 +1,5 @@
 import { Card } from '@/components/ui/card';
 import { RecentBookmarksPayload } from '@/lib/types';
-import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
 type RecentBookmarksProps = RecentBookmarksPayload;
